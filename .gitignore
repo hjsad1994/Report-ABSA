@@ -1,8 +1,4 @@
 2020.findings-emnlp.92.pdf
-Book.cls
-components/
-image/
-include/
 main\ 2.aux
 main\ 2.synctex(busy)
 main\ 2.synctex.gz
@@ -21,4 +17,3 @@ main.synctex.gz
 main.tex
 main.thm
 main.toc
-memory_bank.md
