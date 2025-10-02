@@ -1,0 +1,40 @@
+\newpage
+%
+% Section IV content provided by user
+%
+\section{CƠ SỞ LÝ THUYẾT}\label{sec:theory_support}
+\subsection{Giới thiệu bài toán}
+\subsection{Mô hình PhoBERT}
+\subsubsection{Quy trình tinh chỉnh}
+\subsubsection{Xử lý dữ liệu và hàm mất mát}
+\subsubsection{Tích hợp vào hệ thống}
+\begin{comment}
+Phần này trình bày nền tảng khoa học cho bài toán phân tích cảm xúc đối với bình luận sản phẩm tiếng Việt, gồm đặc tả nhiệm vụ, tổng quan các phương pháp nghiên cứu và cơ chế hoạt động của mô hình PhoBERT mà dự án lựa chọn.
+
+
+Phân tích cảm xúc (Sentiment Analysis) tìm cách suy luận thái độ của người viết thông qua văn bản. Trong ngữ cảnh thương mại điện tử, tác vụ thường được rút gọn thành phân loại cảm xúc của bình luận vào các nhãn rời rạc. Đồ án VeritaShop tập trung vào tập bình luận tiếng Việt có độ dài ngắn, nhiều ký tự biểu cảm, tiếng lóng và viết tắt, đồng thời gán mỗi mẫu vào ba nhãn \textit{tích cực}, \textit{trung tính} hoặc \textit{tiêu cực}. Bài toán đặt ra ba thách thức chính: (i) dữ liệu mất cân bằng, tỷ lệ bình luận tích cực vượt trội khiến mô hình dễ thiên lệch, (ii) ngôn ngữ phi chuẩn làm suy giảm khả năng hiểu ngữ nghĩa, và (iii) yêu cầu suy luận thời gian thực để tích hợp vào quy trình phục vụ khách hàng. Do đó hệ thống cần quy trình tiền xử lý chuẩn hóa, biểu diễn ngôn ngữ mạnh và chiến lược tối ưu hóa phù hợp để duy trì độ chính xác ổn định.
+
+\subsection{Các nghiên cứu liên quan}
+Các hướng tiếp cận truyền thống sử dụng đặc trưng thống kê như bag-of-words, TF-IDF kết hợp với SVM hoặc Naive Bayes giúp triển khai nhanh nhưng thiếu khả năng nắm bắt ngữ nghĩa và phụ thuộc mạnh vào tiền xử lý thủ công. Sự phát triển của học sâu đã mở ra các mô hình biểu diễn ngữ nghĩa hiệu quả hơn:
+\begin{itemize}
+    \item Kim \cite{kim-2014-convolutional} chứng minh CNN với bộ lọc trượt có khả năng khai thác cụm từ quan trọng khi phân loại văn bản ngắn.
+    \item LSTM \cite{10.1162/neco.1997.9.8.1735} giải quyết vấn đề phụ thuộc dài hạn trong câu, phù hợp với dữ liệu hội thoại và đánh giá.
+    \item Kiến trúc Transformer cùng cơ chế Attention \cite{vaswani2017attention} cho phép mô hình hóa quan hệ toàn cục giữa các token, là tiền đề cho các mô hình ngôn ngữ pre-training.
+    \item Các mô hình pre-training dành cho tiếng Việt như PhoBERT \cite{phobert}, viBERT hay viBART chứng minh hiệu quả vượt trội so với mBERT đa ngôn ngữ trong các tác vụ phân loại và phân tích cảm xúc tiếng Việt.
+\end{itemize}
+Những công trình trên cho thấy xu hướng chuyển dịch từ việc tự thiết kế đặc trưng sang tận dụng biểu diễn ngữ nghĩa học được từ dữ liệu lớn. Dựa trên các kết quả đó, dự án lựa chọn PhoBERT làm nền tảng và tinh chỉnh thêm để thích ứng với miền dữ liệu thương mại điện tử.
+
+
+PhoBERT được xây dựng dựa trên BERT nước đôi với 12 lớp encoder, 12 đầu chú ý và chiều ẩn 768, được tiền huấn luyện trên hơn 20GB văn bản tiếng Việt chuẩn hóa theo Byte-Pair Encoding \cite{phobert}. Khối encoder học biểu diễn ngữ cảnh hai chiều, nhờ đó vector [CLS] cuối cùng mang thông tin toàn câu phục vụ phân loại.
+
+
+Trong giai đoạn fine-tuning cho VeritaShop, token [CLS] được đưa qua một lớp dense ba nhãn, áp dụng Dropout 0.1 để giảm quá khớp và tối ưu bằng AdamW với lịch điều chỉnh learning rate dạng cosine. Chiến lược này cho phép mô hình hội tụ ổn định trên bộ dữ liệu không lớn.
+
+
+Bộ dữ liệu bình luận bị lệch nhãn về phía tích cực, vì vậy nhóm áp dụng chiến lược tăng cường và cân bằng gồm: chuẩn hóa Unicode, chuẩn hóa viết tắt, loại bỏ ký tự nhiễu, giữ lại emoji quan trọng và sử dụng tokenizer BPE của PhoBERT với chiều dài tối đa 256 token. Focal loss với $\gamma = 2$ và hệ số $\alpha$ theo từng lớp được lựa chọn thay cho cross-entropy chuẩn để tập trung hơn vào các mẫu khó, cải thiện F1-score lớp tiêu cực.
+
+\subsubsection{Tích hợp vào hệ thống}
+PhoBERT được đóng gói thành AI Service (FastAPI) và giao tiếp với các microservice khác thông qua REST nội bộ. Product Service và Review Service xây dựng bằng Node.js kết hợp Prisma/PostgreSQL chịu trách nhiệm lưu trữ dữ liệu, trong khi Notification Service cảnh báo xu hướng tiêu cực. Toàn bộ cụm dịch vụ được container hóa bằng Docker, theo dõi bằng Prometheus/Grafana và có thể mở rộng ngang khi lưu lượng bình luận tăng.
+
+Nhờ đặc trưng ngôn ngữ giàu ngữ cảnh và quy trình tinh chỉnh phù hợp, PhoBERT đáp ứng tốt yêu cầu phân tích cảm xúc thời gian thực của hệ thống VeritaShop.
+\end{comment}

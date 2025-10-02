@@ -1,0 +1,173 @@
+
+\newpage
+
+\section{\textbf{TỔNG QUAN VỀ VERITASHOP}}
+
+\subsection{Giới thiệu}
+Trong bối cảnh thương mại điện tử bùng nổ, việc phân tích cảm xúc và dự đoán mức độ hài lòng của khách hàng từ bình luận sản phẩm trở thành nhu cầu cấp thiết. Các nền tảng hiện đại cần tích hợp trí tuệ nhân tạo để tự động phân tích phản hồi, giúp doanh nghiệp cải thiện dịch vụ và người dùng đưa ra quyết định mua hàng sáng suốt.
+
+Đồ án ``VeritaShop'' được thực hiện với trọng tâm phát triển mô hình AI phân tích cảm xúc sử dụng công nghệ xử lý ngôn ngữ tự nhiên (NLP) tiên tiến. Dự án ưu tiên xây dựng mô hình PhoBERT được huấn luyện chuyên sâu để dự đoán mức độ hài lòng của khách hàng một cách chính xác. Hệ thống thương mại điện tử được xây dựng sau đó với kiến trúc microservices hiện đại để tích hợp mô hình AI, mang lại trải nghiệm người dùng vượt trội và hỗ trợ doanh nghiệp thấu hiểu khách hàng một cách khoa học.
+
+\subsection{Tổng quan hệ thống}
+\subsubsection{Mục đích hệ thống}
+VeritaShop được thiết kế để cung cấp một nền tảng thương mại điện tử thông minh, cho phép người dùng xem sản phẩm, đánh giá và nhận được phân tích cảm xúc tự động từ bình luận. Hệ thống tích hợp mô hình AI sử dụng xử lý ngôn ngữ tự nhiên để dự đoán mức độ hài lòng của khách hàng, giúp doanh nghiệp thấu hiểu phản hồi và người dùng đưa ra quyết định mua hàng sáng suốt. Mục tiêu chính bao gồm:
+\begin{itemize}
+    \item Xây dựng một nền tảng thương mại điện tử với giao diện thân thiện, responsive, hỗ trợ chế độ sáng/tối.
+    \item Tích hợp mô hình AI PhoBERT để phân tích cảm xúc từ bình luận sản phẩm.
+    \item Dự đoán mức độ hài lòng (tích cực, tiêu cực, trung tính) của khách hàng một cách tự động.
+    \item Tối ưu hóa hiệu suất hệ thống với kiến trúc microservices, containerization và cloud deployment.
+\end{itemize}
+
+VeritaShop không nhằm cạnh tranh với các nền tảng lớn như Shopee hay Lazada, mà tập trung vào việc cung cấp một giải pháp thương mại điện tử quy mô vừa phải, ứng dụng công nghệ AI hiện đại để giải quyết các vấn đề về phân tích cảm xúc, dự đoán xu hướng, và trải nghiệm người dùng.
+
+\subsubsection{Khảo sát các sản phẩm tương tự}
+Các nền tảng thương mại điện tử hiện tại như Shopee, Lazada, và Tiki đã đạt được nhiều thành công trong việc kết nối người mua và người bán, nhưng vẫn tồn tại một số hạn chế trong việc phân tích cảm xúc và dự đoán mức độ hài lòng của khách hàng:
+\begin{itemize}
+    \item \textbf{Shopee}: Cung cấp hệ thống đánh giá sản phẩm cơ bản, nhưng thiếu khả năng phân tích cảm xúc tự động từ bình luận và dự đoán xu hướng hài lòng của khách hàng.
+    \item \textbf{Lazada}: Tập trung vào giao diện thân thiện và đa dạng sản phẩm, nhưng chưa tích hợp mô hình AI để phân tích cảm xúc từ bình luận một cách chính xác.
+    \item \textbf{Tiki}: Hỗ trợ đánh giá sản phẩm với hình ảnh và video, nhưng gặp vấn đề về phân tích ngữ nghĩa và hiểu ngữ cảnh bình luận của khách hàng.
+\end{itemize}
+
+Dựa trên khảo sát, hệ thống đề xuất các cải tiến:
+\begin{itemize}
+    \item Tích hợp mô hình PhoBERT để phân tích cảm xúc từ bình luận sản phẩm bằng tiếng Việt.
+    \item Dự đoán mức độ hài lòng (tích cực, tiêu cực, trung tính) một cách tự động và chính xác.
+    \item Trực quan hóa kết quả phân tích để hỗ trợ doanh nghiệp ra quyết định kinh doanh.
+\end{itemize}
+
+\subsubsection{Yêu cầu hoạt động của ứng dụng}
+\subsubsubsection{Phần dành cho người dùng cuối}
+Người dùng cuối (end-user) có thể thực hiện các chức năng sau:
+\begin{itemize}
+    \item \textbf{Đăng ký và đăng nhập}: Tạo tài khoản với xác thực email, đăng nhập an toàn bằng JWT.
+    \item \textbf{Quản lý hồ sơ}: Cập nhật thông tin cá nhân, ảnh đại diện và xem hồ sơ cá nhân.
+    \item \textbf{Duyệt sản phẩm}: Xem danh sách sản phẩm với thông tin chi tiết, hình ảnh và giá cả.
+    \item \textbf{Đánh giá sản phẩm}: Viết bình luận và đánh giá sao cho sản phẩm đã mua.
+    \item \textbf{Xem phân tích cảm xúc}: Xem kết quả phân tích cảm xúc từ bình luận của cộng đồng.
+    \item \textbf{Tìm kiếm sản phẩm}: Tìm kiếm sản phẩm với bộ lọc theo danh mục, giá cả và đánh giá.
+    \item \textbf{Mua hàng}: Thêm sản phẩm vào giỏ hàng và thực hiện thanh toán.
+    \item \textbf{Theo dõi đơn hàng}: Theo dõi trạng thái đơn hàng và lịch sử mua hàng.
+    \item \textbf{Hỗ trợ AI}: Tương tác với chatbot AI để nhận hỗ trợ và gợi ý sản phẩm.
+\end{itemize}
+
+\subsubsubsection{Phần dành cho người bán/doanh nghiệp}
+Người bán/doanh nghiệp có các chức năng:
+\begin{itemize}
+    \item \textbf{Quản lý sản phẩm}: Thêm, chỉnh sửa và xóa sản phẩm trong cửa hàng.
+    \item \textbf{Xem thống kê}: Theo dõi doanh số, đánh giá và mức độ hài lòng của khách hàng.
+    \item \textbf{Phân tích cảm xúc}: Xem báo cáo chi tiết về cảm nhận của khách hàng đối với sản phẩm.
+    \item \textbf{Quản lý đơn hàng}: Xử lý đơn hàng, cập nhật trạng thái giao hàng.
+    \item \textbf{Tương tác với khách hàng}: Phản hồi bình luận và đánh giá của khách hàng.
+\end{itemize}
+
+\subsubsubsection{Phần dành cho quản trị viên}
+Quản trị viên (admin) có các chức năng:
+\begin{itemize}
+    \item \textbf{Quản lý người dùng}: Xem, chỉnh sửa, hoặc khóa tài khoản người dùng.
+    \item \textbf{Quản lý sản phẩm}: Duyệt và kiểm soát chất lượng sản phẩm trước khi đăng.
+    \item \textbf{Monitoring hệ thống}: Theo dõi hiệu suất, lỗi hệ thống và báo cáo sự cố.
+    \item \textbf{Giao diện quản trị}: Sử dụng dashboard để quản lý tổng quan hệ thống.
+\end{itemize}
+
+\subsection{Thiết kế tương tác}
+Hệ thống được thiết kế với giao diện thân thiện, responsive, hoạt động tốt trên cả desktop và mobile. Giao diện hỗ trợ chế độ sáng/tối để tối ưu trải nghiệm người dùng. Các thành phần chính bao gồm:
+\begin{itemize}
+    \item \textbf{Trang chủ}: Hiển thị danh sách sản phẩm nổi bật, sản phẩm khuyến mãi và mức độ hài lòng tổng quan, sử dụng lazy loading để tối ưu tốc độ tải.
+    \item \textbf{Trang sản phẩm}: Hiển thị thông tin chi tiết sản phẩm, hình ảnh, giá cả, đánh giá và phân tích cảm xúc từ bình luận.
+    \item \textbf{Giỏ hàng và thanh toán}: Giao diện đơn giản để thêm sản phẩm, xem giỏ hàng và thực hiện thanh toán an toàn.
+    \item \textbf{Hồ sơ người dùng}: Hiển thị thông tin cá nhân, lịch sử mua hàng, đánh giá đã viết và mức độ hài lòng.
+    \item \textbf{Bảng điều khiển người bán}: Giao diện quản lý sản phẩm, đơn hàng và thống kê kinh doanh.
+    \item \textbf{Admin dashboard}: Cung cấp bảng điều khiển để quản lý tổng quan hệ thống, người dùng và sản phẩm.
+    \item \textbf{Chatbot AI}: Hỗ trợ người dùng tìm kiếm sản phẩm, giải đáp thắc mắc và nhận gợi ý.
+\end{itemize}
+
+\subsection{Phương pháp tiếp cận và giải quyết vấn đề}
+\subsubsection{Mô hình tổng quát hệ thống}
+Hệ thống được xây dựng dựa trên kiến trúc Microservices hiện đại, kết hợp với các công nghệ tiên tiến để xử lý ngôn ngữ tự nhiên và phân tích cảm xúc. Mô hình tổng quát bao gồm:
+\begin{itemize}
+    \item \textbf{Frontend}: Next.js cho Web App và Flutter cho Mobile App, cung cấp giao diện responsive và tối ưu hiệu suất.
+    \item \textbf{Microservices Backend}: Node.js với NestJS và TypeScript cho các service quản lý người dùng, sản phẩm, thanh toán; Python với FastAPI cho AI service.
+    \item \textbf{AI Service}: Python với mô hình PhoBERT để phân tích cảm xúc từ bình luận sản phẩm.
+    \item \textbf{Cơ sở dữ liệu}: PostgreSQL cho dữ liệu có cấu trúc, MongoDB cho dữ liệu phân tích và logs.
+    \item \textbf{DevOps}: Docker containerization, Kubernetes orchestration, GitHub Actions CI/CD, AWS cloud deployment.
+\end{itemize}
+
+\subsubsection{Phương pháp xây dựng phần mềm}
+Dự án áp dụng phương pháp phát triển phần mềm Agile kết hợp với kiến trúc Microservices, với các giai đoạn:
+\begin{itemize}
+    \item Phân tích yêu cầu: Xác định các chức năng chính và yêu cầu phân tích cảm xúc.
+    \item Thiết kế hệ thống: Xây dựng kiến trúc microservices với Layered Architecture, thiết kế cơ sở dữ liệu và mô hình AI.
+    \item Phát triển: Triển khai từng microservice (User/Auth, Product, Payment, AI) với Prisma ORM và mô hình PhoBERT.
+    \item Tích hợp và kiểm thử: Kết nối các service, triển khai Saga Pattern cho distributed transactions.
+    \item DevOps và triển khai: Containerization với Docker, orchestration với Kubernetes, CI/CD với GitHub Actions.
+\end{itemize}
+
+\subsubsection{Kiến trúc phần mềm}
+Hệ thống sử dụng kiến trúc Microservices với Layered Architecture được áp dụng cho từng service:
+
+Presentation Layer (Controllers):
+- Xử lý HTTP requests và responses
+- Validation và authentication middleware
+- Error handling và logging
+
+Business Logic Layer (Services):
+- Logic nghiệp vụ và xử lý use cases
+- Giao tiếp với Data Access Layer
+- Transaction management
+
+Data Access Layer (Repositories):
+- Tương tác trực tiếp với database
+- CRUD operations và query optimization
+- Data mapping và caching
+
+\begin{itemize}
+    \item \textbf{Frontend}: Next.js với App Router và Server Components cho Web App, Flutter với BLoC pattern cho Mobile App.
+    \item \textbf{Microservices Backend}:
+    \begin{itemize}
+        \item Node.js với Express.js và TypeScript cho User/Auth, Product, Payment services được tổ chức theo Layered Architecture (Controllers → Services → Repositories)
+        \item Python với FastAPI cho AI service phân tích cảm xúc với kiến trúc phân lớp rõ ràng
+        \item Prisma ORM để truy cập cơ sở dữ liệu type-safe
+    \end{itemize}
+    \item \textbf{Cơ sở dữ liệu}: PostgreSQL cho dữ liệu có cấu trúc, MongoDB cho dữ liệu phân tích và logs.
+    \item \textbf{Giao tiếp}: REST API và Message Queue (RabbitMQ/Kafka) cho giao tiếp giữa các service.
+\end{itemize}
+
+\subsubsection{Công nghệ triển khai hệ thống}
+\subsubsubsection{Microservices Backend}
+\begin{itemize}
+    \item \textbf{Node.js với Express.js}: Framework Node.js mạnh mẽ với TypeScript, middleware system linh hoạt, được tổ chức theo Layered Architecture với sự phân tách rõ ràng giữa Controllers (xử lý HTTP requests), Services (logic nghiệp vụ) và Repositories (truy cập database).
+    \item \textbf{Python với FastAPI}: Framework Python async nhanh chóng, tự động generate OpenAPI documentation.
+    \item \textbf{Prisma ORM}: Công cụ ORM type-safe cho Node.js và Python, hỗ trợ migrations và query builder.
+    \item \textbf{PostgreSQL}: Cơ sở dữ liệu quan hệ mạnh mẽ cho dữ liệu có cấu trúc (users, products, orders).
+    \item \textbf{MongoDB}: Cơ sở dữ liệu NoSQL cho dữ liệu phân tích, logs và cache.
+    \item \textbf{RabbitMQ/Kafka}: Message queue để giao tiếp bất đồng bộ giữa các microservices.
+\end{itemize}
+
+\subsubsubsection{Frontend}
+\begin{itemize}
+    \item \textbf{Next.js}: React framework với SSR/SSG, App Router và Server Components cho hiệu suất tối ưu.
+    \item \textbf{Flutter}: Framework đa nền tảng cho Mobile App với Dart, hỗ trợ iOS và Android.
+    \item \textbf{Redux Toolkit}: Quản lý state phức tạp cho ứng dụng React.
+    \item \textbf{Material-UI/Ant Design}: UI library cho thiết kế nhất quán và đẹp mắt.
+\end{itemize}
+
+\subsubsubsection{AI/ML}
+\begin{itemize}
+    \item \textbf{PhoBERT}: Mô hình ngôn ngữ tiếng Việt state-of-the-art cho phân tích cảm xúc.
+    \item \textbf{Transformers (Hugging Face)}: Thư viện xử lý ngôn ngữ tự nhiên mạnh mẽ.
+    \item \textbf{TensorFlow/PyTorch}: Framework deep learning để huấn luyện và triển khai mô hình AI.
+    \item \textbf{Scikit-learn}: Thư viện machine learning cho tiền xử lý dữ liệu và đánh giá mô hình.
+\end{itemize}
+
+\subsubsubsection{DevOps \& Infrastructure}
+\begin{itemize}
+    \item \textbf{Docker}: Containerization để đóng gói ứng dụng và dependencies.
+    \item \textbf{Kubernetes}: Orchestration và quản lý containers trong production.
+    \item \textbf{GitHub Actions}: CI/CD pipeline tự động cho testing, building và deployment.
+    \item \textbf{AWS}: Cloud platform với EKS, RDS, S3, ECR và các dịch vụ khác.
+    \item \textbf{Prometheus \& Grafana}: Monitoring và alerting cho hệ thống.
+    \item \textbf{ELK Stack}: Centralized logging với Elasticsearch, Logstash và Kibana.
+\end{itemize}
+
+% \subsection{Tổng kết chương}
+% Chương này đã trình bày tổng quan về VeritaShop - hệ thống phân tích cảm xúc sản phẩm sử dụng AI tiên tiến. Nội dung bao gồm giới thiệu dự án, khảo sát thị trường, yêu cầu chức năng, thiết kế giao diện và phương pháp triển khai. Hệ thống áp dụng kiến trúc microservices với mô hình phân lớp, sử dụng các công nghệ hiện đại để phân tích bình luận và dự đoán mức độ hài lòng khách hàng. Chương tiếp theo sẽ trình bày cơ sở lý thuyết về xử lý ngôn ngữ tự nhiên và mô hình học máy.

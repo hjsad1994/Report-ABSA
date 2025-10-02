@@ -1,0 +1,80 @@
+
+% \newpage
+% \section{\textbf{CHƯƠNG 6: KẾT LUẬN VÀ KIẾN NGHỊ}}
+
+
+% \subsection{Kết Luận}
+
+% \subsubsection{Tổng kết quá trình thực hiện đồ án}
+% Đồ án đã thực hiện xây dựng thành công mạng xã hội Honey Social với kiến trúc hiện đại, tách biệt Frontend và Backend rõ ràng. Quá trình phát triển tuân theo phương pháp Agile, cho phép linh hoạt điều chỉnh khi gặp thách thức. Việc áp dụng các mô hình thiết kế như MVC, đã giúp mã nguồn có cấu trúc tốt, dễ bảo trì và mở rộng.
+
+% \subsubsection{Kết quả đạt được}
+% \begin{enumerate}
+%     \item \textbf{Hệ thống đa chức năng} - Mạng xã hội hoàn chỉnh với các tính năng chính:
+%     \begin{itemize}
+%         \item Đăng bài viết với hình ảnh và văn bản
+%         \item Hệ thống chat realtime giữa người dùng
+%         \item Trợ lý AI thông minh tích hợp
+%         \item Hệ thống gợi ý nội dung dựa trên vector search
+%         \item Hệ thống thông báo realtime
+%         \item Tìm kiếm nâng cao với Elasticsearch
+%     \end{itemize}
+    
+%     \item \textbf{Kiến trúc kỹ thuật hiện đại}:
+%     \begin{itemize}
+%         \item Frontend: React.js với state management thông qua Redux
+%         \item Backend: Node.js, Express.js với TypeScript
+%         \item Cơ sở dữ liệu: MongoDB kết hợp với Redis cache
+%         \item WebSocket cho giao tiếp realtime
+%         \item RabbitMQ cho hàng đợi xử lý bất đồng bộ
+%         \item Docker cho việc phát triển và triển khai
+%     \end{itemize}
+    
+%     \item \textbf{Hiệu năng cao}:
+%     \begin{itemize}
+%         \item Hệ thống cache đa tầng giúp giảm tải database
+%         \item Xử lý bất đồng bộ các tác vụ nặng như phân tích nội dung, moderation
+%         \item Vector search cho khả năng tìm kiếm và gợi ý thông minh
+%     \end{itemize}
+% \end{enumerate}
+
+% \subsubsection{Hạn chế và thách thức}
+% \begin{enumerate}
+%     \item \textbf{Độ phức tạp của hệ thống}:
+%     \begin{itemize}
+%         \item Cache invalidation khó xử lý đúng trong mọi tình huống
+%         \item Phân tán microservice làm tăng độ phức tạp vận hành
+%     \end{itemize}
+    
+%     \item \textbf{Hiệu năng của AI}:
+%     \begin{itemize}
+%         \item Thời gian phản hồi của ChatAI đôi khi còn chậm
+%         \item Vector embedding tốn kém tài nguyên khi hệ thống lớn
+%     \end{itemize}
+    
+%     \item \textbf{Giới hạn tích hợp}:
+%     \begin{itemize}
+%         \item Chưa có ứng dụng di động native
+%         \item Hệ thống gợi ý cần thêm dữ liệu để tăng độ chính xác
+%     \end{itemize}
+% \end{enumerate}
+
+% \subsection{Kiến nghị và hướng phát triển}
+
+% \subsubsection{Phát triển ứng dụng di động}
+% Xây dựng ứng dụng di động native cho iOS và Android sử dụng React Native hoặc Flutter để tận dụng codebase hiện có, đồng thời cải thiện trải nghiệm người dùng trên thiết bị di động với các tính năng như thông báo đẩy, camera tích hợp và trải nghiệm offline.
+
+% \subsubsection{Nâng cấp hệ thống gợi ý nội dung}
+% Cải tiến hệ thống gợi ý bằng cách kết hợp các yếu tố hành vi người dùng (thời gian xem, tương tác), ngữ cảnh (thời gian, vị trí) và mạng xã hội (kết nối giữa người dùng) để tạo ra gợi ý cá nhân hóa chính xác hơn.
+
+% \subsubsection{Triển khai AI Chatbot học tự động}
+% Phát triển khả năng học tự động cho ChatAI để liên tục cải thiện chất lượng phản hồi dựa trên tương tác của người dùng. Triển khai fine-tuning mô hình để chatbot hiểu tốt hơn ngữ cảnh và văn hóa cụ thể của cộng đồng Honey Social.
+
+% \subsubsection{Tối ưu cơ chế làm mới Redis Cache}
+% Cải tiến cơ chế cache với chiến lược write-through và read-through thông minh hơn, đồng thời sử dụng Redis Streams để quản lý việc làm mới cache phân tán, giảm thiểu lỗi cache inconsistency trong hệ thống nhiều node.
+
+% \subsubsection{Cải tiến hệ thống Post Recommendation}
+% Nâng cấp hệ thống gợi ý bài đăng bằng cách sử dụng kỹ thuật collaborative filtering kết hợp với vector search, đồng thời tối ưu hóa thuật toán lọc bọt (filter bubble) để đảm bảo người dùng tiếp cận được nhiều nội dung đa dạng.
+
+% \subsubsection{Phát triển ChatboxAI nội bộ}
+% Xây dựng công cụ chatbot nội bộ được huấn luyện trên dữ liệu hệ thống để hỗ trợ người quản trị trong việc phân tích xu hướng, phát hiện nội dung vi phạm, và tổng hợp báo cáo hoạt động của cộng đồng.
