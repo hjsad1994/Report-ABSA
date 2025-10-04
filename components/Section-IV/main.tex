@@ -4,6 +4,22 @@
 %
 \section{CƠ SỞ LÝ THUYẾT}\label{sec:theory_support}
 \subsection{Giới thiệu bài toán}
+
+Trong bối cảnh bùng nổ thương mại điện tử tại Việt Nam, việc phân tích và hiểu rõ cảm xúc của khách hàng từ bình luận sản phẩm đã trở thành yếu tố then chốt giúp doanh nghiệp cải thiện chất lượng dịch vụ và tối ưu hóa sản phẩm. Tuy nhiên, ngôn ngữ bình luận tiếng Việt thường chứa nhiều yếu tố phi chuẩn như tiếng lóng, viết tắt, biểu tượng cảm xúc và cấu trúc câu ngắn gọn, tạo ra thách thức lớn cho các hệ thống phân tích cảm xúc truyền thống.
+
+Nghiên cứu này tập trung phát triển hệ thống VeritaShop tích hợp mô hình PhoBERT - một mô hình ngôn ngữ tiên tiến được thiết kế riêng cho tiếng Việt - nhằm giải quyết bài toán phân tích cảm xúc đa chiều từ bình luận sản phẩm. Mục tiêu chính là xây dựng một hệ thống có khả năng tự động phân loại chính xác cảm xúc khách hàng (tích cực, tiêu cực, trung tính) và cung cấp dự đoán đáng tin cậy về mức độ hài lòng, từ đó hỗ trợ doanh nghiệp trong việc ra quyết định chiến lược dựa trên dữ liệu thực tế.
+
+Việc giải quyết bài toán này mang ý nghĩa thực tiễn quan trọng, không chỉ giúp doanh nghiệp nắm bắt nhanh chóng phản hồi thị trường mà còn nâng cao trải nghiệm người dùng thông qua việc cung cấp thông tin phân tích đáng tin cậy. Hệ thống được thiết kế với kiến trúc microservices linh hoạt, cho phép triển khai hiệu quả trong môi trường sản xuất và đáp ứng yêu cầu phân tích thời gian thực, góp phần thúc đẩy chuyển đổi số trong lĩnh vực thương mại điện tử tại Việt Nam.
+\subsection{Các nghiên cứu liên quan}
+
+Phân tích cảm xúc trong lĩnh vực thương mại điện tử đã thu hút sự quan tâm nghiên cứu đáng kể trong những năm gần đây. Các phương pháp truyền thống dựa trên đặc trưng thống kê như bag-of-words và TF-IDF kết hợp với các thuật toán học máy như SVM hay Naive Bayes đã được áp dụng rộng rãi do tính đơn giản và hiệu quả triển khai nhanh. Tuy nhiên, các phương pháp này thường gặp hạn chế trong việc nắm bắt ngữ nghĩa sâu và phụ thuộc nhiều vào quy trình tiền xử lý thủ công, đặc biệt với ngôn ngữ tiếng Việt giàu đặc điểm phi chuẩn.
+
+Sự phát triển của học sâu đã mở ra hướng tiếp cận mới hiệu quả hơn cho bài toán phân tích cảm xúc. Các mô hình mạng nơ-ron tích chập (CNN) đã chứng minh khả năng khai thác hiệu quả các cụm từ quan trọng trong văn bản ngắn, trong khi các mô hình mạng hồi tiếp dài hạn (LSTM) giải quyết tốt vấn đề phụ thuộc dài hạn trong câu. Đặc biệt, kiến trúc Transformer với cơ chế tự chú ý (attention) đã tạo ra bước đột phá, cho phép mô hình hóa quan hệ toàn cục giữa các từ trong câu, trở thành nền tảng cho các mô hình ngôn ngữ tiền huấn luyện hiện đại.
+
+Đối với ngôn ngữ tiếng Việt, các nghiên cứu ban đầu chủ yếu sử dụng mô hình đa ngôn ngữ như mBERT, tuy nhiên hiệu quả còn hạn chế do không nắm bắt đầy đủ đặc điểm ngôn ngữ. Gần đây, các mô hình được thiết kế riêng cho tiếng Việt như PhoBERT, viBERT và viBART đã chứng minh hiệu suất vượt trội trong các tác vụ phân loại và phân tích cảm xúc. PhoBERT, được xây dựng dựa trên kiến trúc BERT và tiền huấn luyện trên hơn 20GB văn bản tiếng Việt, đã trở thành mô hình tiêu chuẩn cho nhiều tác vụ xử lý ngôn ngữ tự nhiên.
+
+Tuy nhiên, hầu hết các nghiên cứu hiện tại vẫn còn một số khoảng trống. Đầu tiên, việc áp dụng các mô hình tiên tiến vào miền dữ liệu thương mại điện tử với đặc thù ngôn ngữ bình luận ngắn, nhiều tiếng lóng và biểu tượng cảm xúc vẫn còn hạn chế. Thứ hai, vấn đề mất cân bằng dữ liệu trong các bộ dữ liệu cảm xúc thực tế chưa được giải quyết triệt để. Thứ ba, việc tích hợp các mô hình này vào hệ thống thương mại điện tử thực tế với yêu cầu xử lý thời gian thực vẫn còn là thách thức. Nghiên cứu hiện tại hướng tới giải quyết các khoảng trống này thông qua việc tinh chỉnh PhoBERT cho miền dữ liệu thương mại điện tử, áp dụng các kỹ thuật xử lý mất cân bằng và thiết kế kiến trúc hệ thống phù hợp cho triển khai thực tế.
+
 \subsection{Mô hình PhoBERT}
 \subsubsection{Quy trình tinh chỉnh}
 \subsubsection{Xử lý dữ liệu và hàm mất mát}
