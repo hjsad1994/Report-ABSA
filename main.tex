@@ -107,9 +107,11 @@
 %\usepackage{fancyhdr}
 
 % Numbering for section, subsection, etc.
-\renewcommand{\thesection}{\Roman{section}}
-\titlespacing{\section}{2pt}{0pt}{2pt}
-\titleformat{\section}{\bfseries\large}{\thesection.}{0.5em}{}
+\renewcommand{\thesection}{\arabic{section}}
+% Section spacing and label formatting (tighter label gap)
+\titlespacing{\section}{0pt}{*1.6}{0.3em}
+% Show "Chương <số>. <Tiêu đề>" with moderate separation
+\titleformat{\section}{\bfseries\large}{Chương\ \thesection.}{0.35em}{}
 \renewcommand{\thesubsection}{\arabic{subsection}}
 \titleformat{\subsection}{\bfseries\large}{\thesubsection.}{0.5em}{}
 
@@ -144,6 +146,12 @@
 
 \setcounter{secnumdepth}{4}
 \setcounter{tocdepth}{4}
+% ToC entries: prefix with "Chương"; ensure spacing and adequate widths
+\renewcommand{\cftsecpresnum}{Chương~}
+\renewcommand{\cftsecaftersnum}{.\space}
+% Set section indent and number width; bring title closer in ToC
+\cftsetindents{section}{0em}{7em}
+\setlength{\cftsecnumwidth}{7em}
 
 
 % Numbering for label itemization
