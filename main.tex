@@ -113,7 +113,10 @@
 % Show "Chương <số>. <Tiêu đề>" with moderate separation
 \titleformat{\section}{\bfseries\large}{Chương\ \thesection.}{0.35em}{}
 \renewcommand{\thesubsection}{\arabic{subsection}}
-\titleformat{\subsection}{\bfseries\large}{\thesubsection.}{0.5em}{}
+% Giảm khoảng cách giữa số và tiêu đề cho các cấp mục nhỏ
+% Thu hẹp tối đa khoảng cách sau số mục
+\titleformat{\subsection}{\bfseries\large}{\thesubsection.}{0em}{}
+\titleformat{\subsubsection}{\bfseries\normalsize}{\thesubsubsection.}{0em}{}
 
 % subsubsbusection
 \titleclass{\subsubsubsection}{straight}[\subsection]
@@ -123,7 +126,7 @@
 \renewcommand\theparagraph{\thesubsubsubsection.\arabic{paragraph}} % optional; useful if paragraphs are to be numbered
 
 \titleformat{\subsubsubsection}
-  {\normalfont\normalsize\bfseries}{\thesubsubsubsection}{1em}{}
+  {\normalfont\normalsize\bfseries}{\thesubsubsubsection}{0em}{}
 \titlespacing*{\subsubsubsection}
 {0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
 
@@ -139,7 +142,8 @@
 \def\toclevel@subsubsubsection{4}
 \def\toclevel@paragraph{5}
 \def\toclevel@paragraph{6}
-\def\l@subsubsubsection{\@dottedtocline{4}{7em}{4em}}
+% Tighten ToC spacing for custom subsubsubsection level
+\def\l@subsubsubsection{\@dottedtocline{4}{3.8em}{2.6em}}
 \def\l@paragraph{\@dottedtocline{5}{10em}{5em}}
 \def\l@subparagraph{\@dottedtocline{6}{14em}{6em}}
 \makeatother
@@ -149,9 +153,17 @@
 % ToC entries: prefix with "Chương"; ensure spacing and adequate widths
 \renewcommand{\cftsecpresnum}{Chương~}
 \renewcommand{\cftsecaftersnum}{.\space}
-% Set section indent and number width; bring title closer in ToC
-\cftsetindents{section}{0em}{7em}
-\setlength{\cftsecnumwidth}{7em}
+% Set ToC indents and number widths (allow for "Chương" prefix)
+\cftsetindents{section}{0em}{6.8em}
+\setlength{\cftsecnumwidth}{6.8em}
+\cftsetindents{subsection}{1.5em}{2.0em}
+\setlength{\cftsubsecnumwidth}{2.0em}
+\cftsetindents{subsubsection}{3.2em}{2.3em}
+\setlength{\cftsubsubsecnumwidth}{2.3em}
+% subsubsubsection is custom; controlled by \l@subsubsubsection
+\newlength{\cftsubsubsubsectionindent}
+\newlength{\cftsubsubsubsectionnumwidth}
+\cftsetindents{subsubsubsection}{5.0em}{2.6em}
 
 
 % Numbering for label itemization
