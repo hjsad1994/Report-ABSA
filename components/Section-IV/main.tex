@@ -10,6 +10,7 @@ Trong bối cảnh thương mại điện tử phát triển mạnh tại Việt
 Nghiên cứu này tập trung phát triển hệ thống VeritaShop tích hợp mô hình ngôn ngữ tiên tiến để tự động phân loại cảm xúc khách hàng (tích cực, tiêu cực, trung tính) và cung cấp dự đoán về mức độ hài lòng, hỗ trợ doanh nghiệp ra quyết định dựa trên dữ liệu thực tế. Hệ thống được thiết kế với kiến trúc monolithic, cho phép triển khai hiệu quả và đáp ứng yêu cầu phân tích thời gian thực.
 \subsection{Các nghiên cứu liên quan}
 
+<<<<<<< HEAD
 Các phương pháp truyền thống dựa trên đặc trưng thống kê như bag-of-words và TF-IDF kết hợp với SVM hay Naive Bayes được áp dụng rộng rãi, nhưng gặp hạn chế trong nắm bắt ngữ nghĩa sâu và phụ thuộc nhiều vào tiền xử lý thủ công, đặc biệt với tiếng Việt.
 
 Sự phát triển của học sâu đã mở ra hướng tiếp cận mới hiệu quả hơn. Các mô hình CNN và LSTM giải quyết tốt vấn đề phân tích văn bản, trong khi kiến trúc Transformer với cơ chế attention trở thành nền tảng cho các mô hình ngôn ngữ tiền huấn luyện hiện đại. Đối với tiếng Việt, các mô hình được thiết kế riêng đã chứng minh hiệu suất vượt trội so với mô hình đa ngôn ngữ.
@@ -20,6 +21,18 @@ Tuy nhiên, các nghiên cứu hiện tại vẫn còn khoảng trống: việc 
 \subsubsection{Quy trình tinh chỉnh}
 \subsubsection{Xử lý dữ liệu và hàm mất mát}
 \subsubsection{Tích hợp vào hệ thống}
+=======
+Các hướng tiếp cận phân tích cảm xúc đã tiến hóa từ mô hình dựa trên đặc trưng thủ công sang học biểu diễn sâu quy mô lớn. Giai đoạn đầu, các đặc trưng thống kê (bag-of-words/TF–IDF) kết hợp SVM/Naive Bayes giúp triển khai nhanh nhưng kém khả năng nắm bắt ngữ nghĩa và phụ thuộc mạnh vào tiền xử lý, đặc biệt với bình luận tiếng Việt giàu tiếng lóng/emoji. Với học sâu, CNN chứng minh hiệu quả trên văn bản ngắn bằng các bộ lọc trượt \\cite{kim-2014-convolutional}, LSTM khắc phục phụ thuộc dài hạn \\cite{10.1162/neco.1997.9.8.1735}, và Transformer cùng cơ chế tự chú ý mở ra bước nhảy vọt về mô hình hóa quan hệ toàn cục \\cite{vaswani2017attention}, đặt nền cho làn sóng mô hình tiền huấn luyện.
+
+Trong bối cảnh tiếng Việt, mô hình đa ngôn ngữ (mBERT) cho kết quả ban đầu nhưng chưa đặc tả tốt hiện tượng ngôn ngữ bản địa; các mô hình chuyên biệt như PhoBERT \\cite{phobert} cho thấy ưu thế rõ rệt trên tác vụ phân loại và cảm xúc nhờ tiền huấn luyện trên kho ngữ liệu lớn tiếng Việt. Dù vậy, phần lớn công trình vẫn bộc lộ các hạn chế: (i) miền thương mại điện tử với bình luận ngắn, nhiễu, lệch nhãn ít được xử lý có hệ thống; (ii) mất cân bằng dữ liệu thường bị xem nhẹ, ảnh hưởng trực tiếp tới F1 của lớp thiểu số; (iii) ít nghiên cứu bàn tới tích hợp thời gian thực ở mức hệ thống, bao gồm độ trễ suy luận, khả năng mở rộng và giám sát vận hành.
+
+Nghiên cứu này định vị đóng góp bằng cách tổng hợp các tiến bộ trên theo hướng thực dụng: tinh chỉnh PhoBERT cho miền TMĐT tiếng Việt, kết hợp chiến lược học chống lệch (ví dụ focal loss) để cải thiện độ bền với mất cân bằng, và triển khai trong kiến trúc microservices hướng suy luận thời gian thực. Cách tiếp cận này vừa kế thừa sức mạnh biểu diễn của mô hình tiền huấn luyện, vừa khắc phục các khoảng trống về dữ liệu và triển khai mà nhiều nghiên cứu trước chưa giải quyết triệt để.
+
+\subsection{Mô hình PhoBERT}
+% \subsubsection{Quy trình tinh chỉnh}
+% \subsubsection{Xử lý dữ liệu và hàm mất mát}
+% \subsubsection{Tích hợp vào hệ thống}
+>>>>>>> b3c7ee774f3d25d042178730bf3eba20bb982199
 \begin{comment}
 Phần này trình bày nền tảng khoa học cho bài toán phân tích cảm xúc đối với bình luận sản phẩm tiếng Việt, gồm đặc tả nhiệm vụ, tổng quan các phương pháp nghiên cứu và cơ chế hoạt động của mô hình PhoBERT mà dự án lựa chọn.
 
