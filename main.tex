@@ -115,8 +115,8 @@
 \renewcommand{\thesubsection}{\arabic{subsection}}
 % Giảm khoảng cách giữa số và tiêu đề cho các cấp mục nhỏ
 % Thu hẹp tối đa khoảng cách sau số mục
-\titleformat{\subsection}{\bfseries\large}{\thesubsection.}{0em}{}
-\titleformat{\subsubsection}{\bfseries\normalsize}{\thesubsubsection.}{0em}{}
+\titleformat{\subsection}{\bfseries\large}{\thesubsection.}{0.5em}{}
+\titleformat{\subsubsection}{\bfseries\normalsize}{\thesubsubsection.}{0.5em}{}
 
 % subsubsbusection
 \titleclass{\subsubsubsection}{straight}[\subsection]
@@ -126,7 +126,7 @@
 \renewcommand\theparagraph{\thesubsubsubsection.\arabic{paragraph}} % optional; useful if paragraphs are to be numbered
 
 \titleformat{\subsubsubsection}
-  {\normalfont\normalsize\bfseries}{\thesubsubsubsection}{0em}{}
+  {\normalfont\normalsize\bfseries}{\thesubsubsubsection}{0.5em}{}
 \titlespacing*{\subsubsubsection}
 {0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
 

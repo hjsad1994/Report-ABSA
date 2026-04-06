@@ -1,0 +1,415 @@
+================================================================================
+FLEISS' KAPPA AGREEMENT ANALYSIS - DETAILED REPORT
+================================================================================
+Ngày tạo: 2025-10-26 16:05:11
+
+Tổng số items: 1546
+Tổng số annotations: 4639
+Số annotators: 9
+
+================================================================================
+KẾT QUẢ FLEISS' KAPPA
+================================================================================
+Label              Kappa    P_bar      P_e  Valid Items   Items w/ Data   Coverage
+--------------------------------------------------------------------------------
+Battery           0.8834   0.9669   0.7161         1546             278      18.0%
+Camera            0.9166   0.9837   0.8048         1546             175      11.3%
+Performance       0.7842   0.9369   0.7078         1546             327      21.2%
+Display           0.7915   0.9665   0.8392         1546             165      10.7%
+Design            0.7105   0.9113   0.6935         1546             373      24.1%
+Packaging         0.8703   0.9663   0.7399         1546             274      17.7%
+Price             0.8770   0.9553   0.6362         1546             398      25.7%
+Shop_Service      0.8301   0.9514   0.7138         1546             299      19.3%
+Shipping          0.8917   0.9583   0.6147         1546             404      26.1%
+General           0.6352   0.8621   0.6221         1546             501      32.4%
+Others            0.8382   0.9947   0.9674         1546              34       2.2%
+--------------------------------------------------------------------------------
+Trung bình        0.8208
+Trung vị          0.8382
+Độ lệch chuẩn     0.0814
+
+================================================================================
+PHÂN BỐ CATEGORIES
+================================================================================
+
+Battery:
+  Negative     :  447 (  9.6%)
+  Neutral      :   23 (  0.5%)
+  Positive     :  280 (  6.0%)
+  (Rỗng)       : 3889 ( 83.8%)
+
+Camera:
+  Negative     :  264 (  5.7%)
+  Neutral      :   17 (  0.4%)
+  Positive     :  211 (  4.5%)
+  (Rỗng)       : 4147 ( 89.4%)
+
+Performance:
+  Negative     :  299 (  6.4%)
+  Neutral      :   15 (  0.3%)
+  Positive     :  462 ( 10.0%)
+  (Rỗng)       : 3863 ( 83.3%)
+
+Display:
+  Negative     :  184 (  4.0%)
+  Neutral      :   16 (  0.3%)
+  Positive     :  199 (  4.3%)
+  (Rỗng)       : 4240 ( 91.4%)
+
+Design:
+  Negative     :  130 (  2.8%)
+  Neutral      :   17 (  0.4%)
+  Positive     :  695 ( 15.0%)
+  (Rỗng)       : 3797 ( 81.8%)
+
+Packaging:
+  Negative     :  158 (  3.4%)
+  Neutral      :    6 (  0.1%)
+  Positive     :  523 ( 11.3%)
+  (Rỗng)       : 3952 ( 85.2%)
+
+Price:
+  Negative     :   43 (  0.9%)
+  Neutral      :   21 (  0.5%)
+  Positive     : 1019 ( 22.0%)
+  (Rỗng)       : 3556 ( 76.7%)
+
+Shop_Service:
+  Negative     :  327 (  7.0%)
+  Neutral      :   27 (  0.6%)
+  Positive     :  401 (  8.6%)
+  (Rỗng)       : 3884 ( 83.7%)
+
+Shipping:
+  Negative     :  309 (  6.7%)
+  Neutral      :   18 (  0.4%)
+  Positive     :  772 ( 16.6%)
+  (Rỗng)       : 3540 ( 76.3%)
+
+General:
+  Negative     :  236 (  5.1%)
+  Neutral      :   96 (  2.1%)
+  Positive     :  732 ( 15.8%)
+  (Rỗng)       : 3575 ( 77.1%)
+
+Others:
+  Negative     :    0 (  0.0%)
+  Neutral      :   78 (  1.7%)
+  Positive     :    0 (  0.0%)
+  (Rỗng)       : 4561 ( 98.3%)
+
+================================================================================
+ITEMS CÓ AGREEMENT THẤP
+================================================================================
+
+Battery:
+
+  ID: 224042225 (Agreement: 0.000)
+  Text: Hiệu năng rất mạnh rất ngon trong tầm giá Màn hình đẹp pin chưa test nhưng rất x...
+  Votes: , Positive, Neutral
+  Distribution: Neg=0, Neu=1, Pos=1, Empty=1
+
+  ID: 224044732 (Agreement: 0.000)
+  Text: Đây là cái điện thoại thứ 2 mình mua ở shop Shop chính hãng nên cũng khá an tâm ...
+  Votes: Positive, Negative, Neutral
+  Distribution: Neg=1, Neu=1, Pos=1, Empty=0
+
+  ID: 224039302 (Agreement: 0.333)
+  Text: vớ vẩn dối trá sạc không vào, shipping lỗi
+  Votes: , Negative, Negative
+  Distribution: Neg=2, Neu=0, Pos=0, Empty=1
+
+  ID: 224039354 (Agreement: 0.333)
+  Text: ngoại hình máy đẹp, giá cả ổn giá này được chip snap 845 là quá tuyê...
+  Votes: Neutral, Positive, Neutral
+  Distribution: Neg=0, Neu=2, Pos=1, Empty=0
+
+  ID: 224039360 (Agreement: 0.333)
+  Text: chăm sóc khách hàng quá kém. điện thoại giật đơ, sài sạc được có chưa được 20 ng...
+  Votes: Negative, , 
+  Distribution: Neg=1, Neu=0, Pos=0, Empty=2
+
+Camera:
+
+  ID: 224039814 (Agreement: 0.000)
+  Text: đánh giá sau 1 thời gian trải nghiệm: máy nhìn rất mới , chỗ viền cam có xước xí...
+  Votes: , Positive, Neutral
+  Distribution: Neg=0, Neu=1, Pos=1, Empty=1
+
+  ID: 224039962 (Agreement: 0.000)
+  Text: camera màu xám shipping giao muộn đóng hàng thiếu sách hướng dẫn
+  Votes: Positive, Negative, Neutral
+  Distribution: Neg=1, Neu=1, Pos=1, Empty=0
+
+  ID: 224040589 (Agreement: 0.000)
+  Text: buồn cười ảo tưởng sức mạnh quay video tiếng gió ào ào như đang ở bãi biển,
+  Votes: Negative, , Positive
+  Distribution: Neg=1, Neu=0, Pos=1, Empty=1
+
+  ID: 224039330 (Agreement: 0.333)
+  Text: ảnh selfie bị làm mịn quá đà, mất hết chi tiết, màu sắc sai bét. cskh ko hỗ trợ ...
+  Votes: Negative, , Negative
+  Distribution: Neg=2, Neu=0, Pos=0, Empty=1
+
+  ID: 224039365 (Agreement: 0.333)
+  Text: Chất lượng sản phẩm: nfc không được nhạy, camera tương đối ổn 108mp mà nó lạ lắm...
+  Votes: Positive, Positive, Neutral
+  Distribution: Neg=0, Neu=1, Pos=2, Empty=0
+
+Performance:
+
+  ID: 224039303 (Agreement: 0.000)
+  Text: chất lượng sản phẩm camera bị lỗi phần mềm. đúng với mô tả chức năng camera khôn...
+  Votes: Neutral, Negative, Positive
+  Distribution: Neg=1, Neu=1, Pos=1, Empty=0
+
+  ID: 224039477 (Agreement: 0.000)
+  Text: Màu sắc: xanh matcha 🔋 
+Thời lượng pin:5000 mah 📸 
+Chất lượng camera:không đẹp, ...
+  Votes: , Neutral, Positive
+  Distribution: Neg=0, Neu=1, Pos=1, Empty=1
+
+  ID: 224039795 (Agreement: 0.000)
+  Text: trải nghiệm camera tệ. chất lượng ảnh khác xa qc. màu sắc giả tạo. ảnh chụp màu ...
+  Votes: Negative, Positive, Neutral
+  Distribution: Neg=1, Neu=1, Pos=1, Empty=0
+
+  ID: 224039978 (Agreement: 0.000)
+  Text: Tính năng nổi bật: pin trâu 
+Đúng với mô tả: quá tốt 
+Chất lượng sản phẩm: tốt
+C...
+  Votes: Neutral, Positive, 
+  Distribution: Neg=0, Neu=1, Pos=1, Empty=1
+
+  ID: 224040742 (Agreement: 0.000)
+  Text: Màu sắc: đen 
+Phân loại: không hộp mới (100%) điện thoại mới. giao hàng nhanh. m...
+  Votes: Negative, Positive, 
+  Distribution: Neg=1, Neu=0, Pos=1, Empty=1
+
+Display:
+
+  ID: 224039426 (Agreement: 0.000)
+  Text: màn đẹp tiền nào của đấy hơn samsung a06 cùng tầm giá , hơi tiếc hãng không tran...
+  Votes: Neutral, Positive, Negative
+  Distribution: Neg=1, Neu=1, Pos=1, Empty=0
+
+  ID: 224040015 (Agreement: 0.000)
+  Text: cửa hàng giao đúng máy samsung a7(2018).a750 .chạy android 10.dùng tạm ổn....
+  Votes: Positive, Negative, 
+  Distribution: Neg=1, Neu=0, Pos=1, Empty=1
+
+  ID: 224040804 (Agreement: 0.000)
+  Text: giải trí xem như hài kịch cảm ứng nhảy múa như đang lắc lư theo nhạc,
+  Votes: Positive, , Negative
+  Distribution: Neg=1, Neu=0, Pos=1, Empty=1
+
+  ID: 224042875 (Agreement: 0.000)
+  Text: Chưa sử dụng lâu nên chưa đánh giá được chất lượng, nhìn tông thể máy đẹp, mnaf ...
+  Votes: Positive, Neutral, 
+  Distribution: Neg=0, Neu=1, Pos=1, Empty=1
+
+  ID: 224039336 (Agreement: 0.333)
+  Text: hàng tốt dù màn hình đã bị thay mới, vẫn bị lồi giấy bóng ra ngoài màn hình nhưn...
+  Votes: Neutral, Negative, Negative
+  Distribution: Neg=2, Neu=1, Pos=0, Empty=0
+
+Design:
+
+  ID: 224040029 (Agreement: 0.000)
+  Text: Phân loại: máy xấu 80% khá tốt
+  Votes: Negative, Neutral, 
+  Distribution: Neg=1, Neu=1, Pos=0, Empty=1
+
+  ID: 224040153 (Agreement: 0.000)
+  Text: ngoại hình có chút cấn móp, xướt nhưng khá ít và chấp nhận được
+  Votes: Positive, , Neutral
+  Distribution: Neg=0, Neu=1, Pos=1, Empty=1
+
+  ID: 224040882 (Agreement: 0.000)
+  Text: Chất lượng sản phẩm: tốt
+Hàng tốt màu đen có trầy chút ít . pin 4500 đủ sử dụng ...
+  Votes: Negative, , Neutral
+  Distribution: Neg=1, Neu=1, Pos=0, Empty=1
+
+  ID: 224042055 (Agreement: 0.000)
+  Text: Thiết kế mặt sau đẹp, mặt trước nhìn hơi chán Phù hợp cho học sinh & người lớn t...
+  Votes: Positive, Neutral, Negative
+  Distribution: Neg=1, Neu=1, Pos=1, Empty=0
+
+  ID: 224042166 (Agreement: 0.000)
+  Text: Ok nha có tặng kèm củ sạc 20w vs tai nghe AKG Máy không một vết xước nhưng mà mấ...
+  Votes: Positive, , Negative
+  Distribution: Neg=1, Neu=0, Pos=1, Empty=1
+
+Packaging:
+
+  ID: 224039303 (Agreement: 0.333)
+  Text: chất lượng sản phẩm camera bị lỗi phần mềm. đúng với mô tả chức năng camera khôn...
+  Votes: Neutral, Negative, Negative
+  Distribution: Neg=2, Neu=1, Pos=0, Empty=0
+
+  ID: 224039329 (Agreement: 0.333)
+  Text: Màu sắc: đen 
+Phân loại: fullbox mới +sạc 18w đã nhận hang. thấy nguyên seal. cà...
+  Votes: Positive, , 
+  Distribution: Neg=0, Neu=0, Pos=1, Empty=2
+
+  ID: 224039330 (Agreement: 0.333)
+  Text: ảnh selfie bị làm mịn quá đà, mất hết chi tiết, màu sắc sai bét. cskh ko hỗ trợ ...
+  Votes: , , Negative
+  Distribution: Neg=1, Neu=0, Pos=0, Empty=2
+
+  ID: 224039364 (Agreement: 0.333)
+  Text: hộp iphone bị móp méo, đề nghị cửa hàng yêu cầu bên vận chuyển cẩn thận. hoặc cử...
+  Votes: , Negative, 
+  Distribution: Neg=1, Neu=0, Pos=0, Empty=2
+
+  ID: 224039366 (Agreement: 0.333)
+  Text: giao hàng nhanh đầy đủ hàng, đóng gói kỹ, nói chung máy đẹp mượt mà, sẽ ủng hộ k...
+  Votes: Positive, Positive, 
+  Distribution: Neg=0, Neu=0, Pos=2, Empty=1
+
+Price:
+
+  ID: 224039419 (Agreement: 0.000)
+  Text: Nhóm màu: màu đen nhám 
+Dung lượng lưu trữ: 256gb mới nhận chưa sử dụng, sẽ đánh...
+  Votes: , Neutral, Negative
+  Distribution: Neg=1, Neu=1, Pos=0, Empty=1
+
+  ID: 224039443 (Agreement: 0.000)
+  Text: Nhóm màu: màu đen hình ảnh mang tính chất nhận xu. máy gọi nghề nhưng giá không ...
+  Votes: , Neutral, Negative
+  Distribution: Neg=1, Neu=1, Pos=0, Empty=1
+
+  ID: 224039566 (Agreement: 0.000)
+  Text: máy hơn 1tr thì cũng không trong mong tạm ổn do cường lực dầy nên bấm không ăn x...
+  Votes: Neutral, Positive, 
+  Distribution: Neg=0, Neu=1, Pos=1, Empty=1
+
+  ID: 224039897 (Agreement: 0.000)
+  Text: không được ung lam nhưng chấp nhận tiền nào của đó, chẳng qua chỉ để làm máy phụ...
+  Votes: , Neutral, Negative
+  Distribution: Neg=1, Neu=1, Pos=0, Empty=1
+
+  ID: 224039907 (Agreement: 0.000)
+  Text: điện thoại ghẻ, hình như điện thoại từ thời cổ đại  kém chất lượng sản phẩm, sử ...
+  Votes: Positive, Negative, 
+  Distribution: Neg=1, Neu=0, Pos=1, Empty=1
+
+Shop_Service:
+
+  ID: 224039320 (Agreement: 0.000)
+  Text: Chất lượng sản phẩm: ổn, tạm chấp nhận. máy cũ nên có lỗi vặt 
+Tính năng nổi bật...
+  Votes: Positive, Neutral, Negative
+  Distribution: Neg=1, Neu=1, Pos=1, Empty=0
+
+  ID: 224039459 (Agreement: 0.000)
+  Text: đầu tiên cũng hơi rén khi đặt sản phẩm online, nhưng cũng có tìm hiểu và nhắn ti...
+  Votes: , Neutral, Positive
+  Distribution: Neg=0, Neu=1, Pos=1, Empty=1
+
+  ID: 224039582 (Agreement: 0.000)
+  Text: a mua cái này là cái thứ 2. sử dụng tốt. cửa hàng kích hoạt bảo hành máy cho anh...
+  Votes: Positive, , Neutral
+  Distribution: Neg=0, Neu=1, Pos=1, Empty=1
+
+  ID: 224039754 (Agreement: 0.000)
+  Text: máy đẹp pin trâu, mà cửa hàng dán quả bảo hành chí quá không dán cường lực được,...
+  Votes: Negative, Positive, Neutral
+  Distribution: Neg=1, Neu=1, Pos=1, Empty=0
+
+  ID: 224039860 (Agreement: 0.000)
+  Text: trôi bảo hành 1 tháng, hy vọng sử dụng ổn định. giá rẻ hơn hàng new 100% nên chấ...
+  Votes: Positive, Negative, Neutral
+  Distribution: Neg=1, Neu=1, Pos=1, Empty=0
+
+Shipping:
+
+  ID: 224041058 (Agreement: 0.000)
+  Text: Đúng với mô tả: tốt 
+Chất lượng sản phẩm: tốt 
+Tính năng nổi bật: tốt
+3 ngày mới...
+  Votes: Neutral, Negative, 
+  Distribution: Neg=1, Neu=1, Pos=0, Empty=1
+
+  ID: 224039301 (Agreement: 0.333)
+  Text: đang test kiểm hàng mà cứ hối la um xùm. không kiem kỹ lỡ hư sao sử dụng rồi mua...
+  Votes: , Negative, 
+  Distribution: Neg=1, Neu=0, Pos=0, Empty=2
+
+  ID: 224039304 (Agreement: 0.333)
+  Text: bảo hành rườm rà bảo hành dễ dàng nhưng không phải gửi đi gửi lại, tốn phí ship,...
+  Votes: Negative, , Negative
+  Distribution: Neg=2, Neu=0, Pos=0, Empty=1
+
+  ID: 224039318 (Agreement: 0.333)
+  Text: máy thì sưa chữa rồi. đơ đơ . mua màu xanh thì gửi màu đen. nhắn tin đi thì được...
+  Votes: , , Negative
+  Distribution: Neg=1, Neu=0, Pos=0, Empty=2
+
+  ID: 224039330 (Agreement: 0.333)
+  Text: ảnh selfie bị làm mịn quá đà, mất hết chi tiết, màu sắc sai bét. cskh ko hỗ trợ ...
+  Votes: Negative, Negative, 
+  Distribution: Neg=2, Neu=0, Pos=0, Empty=1
+
+General:
+
+  ID: 224039572 (Agreement: 0.000)
+  Text: Dung lượng lưu trữ: galaxy a71 8g/128gb 
+Nhóm màu: xanh hết màu xanh thì cập nhậ...
+  Votes: Neutral, Negative, 
+  Distribution: Neg=1, Neu=1, Pos=0, Empty=1
+
+  ID: 224039701 (Agreement: 0.000)
+  Text: variation3: ram 6/128gb mua 6/128 nhưng cửa hàng lại giao 4/64. cửa hàng nên chấ...
+  Votes: Neutral, , Negative
+  Distribution: Neg=1, Neu=1, Pos=0, Empty=1
+
+  ID: 224039733 (Agreement: 0.000)
+  Text: variation3: mỹ 2 sim 99% 128gb máy 99% đẹp, độ bền đánh giá sau
+  Votes: Neutral, , Positive
+  Distribution: Neg=0, Neu=1, Pos=1, Empty=1
+
+  ID: 224039753 (Agreement: 0.000)
+  Text: sản phẩm như mô tả, bản nhà mạng mỹ chất lượng đánh giá sau. hình thức bên ngoài...
+  Votes: Neutral, , Positive
+  Distribution: Neg=0, Neu=1, Pos=1, Empty=1
+
+  ID: 224039790 (Agreement: 0.000)
+  Text: điện thoại cầm nhẹ tay, chỗ lắp pin với nhét sim hơi khó mở. loa bị bé quá nghe ...
+  Votes: Positive, Negative, 
+  Distribution: Neg=1, Neu=0, Pos=1, Empty=1
+
+Others:
+
+  ID: 224039352 (Agreement: 0.333)
+  Text: Dung lượng lưu trữ: bản ram 4gb/64gb may yeu,dien luc co tieng luc o tieng nho k...
+  Votes: , Neutral, 
+  Distribution: Neg=0, Neu=1, Pos=0, Empty=2
+
+  ID: 224039479 (Agreement: 0.333)
+  Text: mọi thứ đều ổn trừ cài đèn led:((( 1 ngày tịt
+  Votes: Neutral, , 
+  Distribution: Neg=0, Neu=1, Pos=0, Empty=2
+
+  ID: 224039498 (Agreement: 0.333)
+  Text: Đúng với mô tả: hang cu tan trang sai van tốt
+  Votes: , Neutral, 
+  Distribution: Neg=0, Neu=1, Pos=0, Empty=2
+
+  ID: 224039655 (Agreement: 0.333)
+  Text: bạn thân mến ơi, cửa hàng thấy đơn hàng của bạn đã được giao thành công ạ ^^ nếu...
+  Votes: Neutral, Neutral, 
+  Distribution: Neg=0, Neu=2, Pos=0, Empty=1
+
+  ID: 224039827 (Agreement: 0.333)
+  Text: Chất lượng sản phẩm: chất lượng sản phẩm tốt trong tầm giá 
+Đúng với mô tả: đúng...
+  Votes: , , Neutral
+  Distribution: Neg=0, Neu=1, Pos=0, Empty=2

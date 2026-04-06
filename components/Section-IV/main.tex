@@ -14,39 +14,113 @@ Các phương pháp truyền thống dựa trên đặc trưng thống kê như 
 
 Sự phát triển của học sâu đã mở ra hướng tiếp cận mới hiệu quả hơn. Các mô hình CNN và LSTM giải quyết tốt vấn đề phân tích văn bản, trong khi kiến trúc Transformer với cơ chế attention trở thành nền tảng cho các mô hình ngôn ngữ tiền huấn luyện hiện đại. Đối với tiếng Việt, các mô hình được thiết kế riêng đã chứng minh hiệu suất vượt trội so với mô hình đa ngôn ngữ.
 
-Tuy nhiên, các nghiên cứu hiện tại vẫn còn khoảng trống: việc áp dụng mô hình vào miền dữ liệu thương mại điện tử với ngôn ngữ bình luận ngắn, nhiều tiếng lóng còn hạn chế; vấn đề mất cân bằng dữ liệu chưa được giải quyết triệt để; việc tích hợp vào hệ thống thực tế với yêu cầu xử lý thời gian thực vẫn là thách thức. Nghiên cứu này hướng tới giải quyết các khoảng trống trên thông qua việc so sánh và lựa chọn mô hình phù hợp, áp dụng kỹ thuật xử lý mất cân bằng và thiết kế kiến trúc hệ thống phù hợp.
+Tuy nhiên, các nghiên cứu hiện tại vẫn còn hạn chế: việc áp dụng vào miền thương mại điện tử với ngôn ngữ bình luận ngắn, nhiều tiếng lóng còn hạn chế; vấn đề mất cân bằng dữ liệu chưa được giải quyết triệt để; bộ dữ liệu UIT-ViSFD thiếu dữ liệu về đóng gói và vận chuyển; việc tích hợp vào hệ thống thực tế với yêu cầu xử lý thời gian thực vẫn là thách thức. Nghiên cứu này giải quyết các hạn chế trên thông qua: (i) bổ sung bộ dữ liệu mới, (ii) so sánh và lựa chọn mô hình phù hợp, (iii) áp dụng kỹ thuật xử lý mất cân bằng, và (iv) thiết kế kiến trúc hệ thống tối ưu.
+\subsection{Focal Loss}
 
-\subsection{Mô hình ngôn ngữ}
-\subsubsection{Quy trình tinh chỉnh}
-\subsubsection{Xử lý dữ liệu và hàm mất mát}
-\subsubsection{Tích hợp vào hệ thống}
-\begin{comment}
-Phần này trình bày nền tảng khoa học cho bài toán phân tích cảm xúc đối với bình luận sản phẩm tiếng Việt, gồm đặc tả nhiệm vụ, tổng quan các phương pháp nghiên cứu và cơ chế hoạt động của mô hình PhoBERT mà dự án lựa chọn.
+Một trong những thách thức quan trọng trong bài toán phân tích cảm xúc là vấn đề mất cân bằng dữ liệu giữa các lớp.
+Trong bộ dữ liệu bình luận sản phẩm, số lượng bình luận tích cực thường chiếm tỷ lệ lớn so với các bình luận tiêu cực và trung tính.
+Hàm mất mát Cross-Entropy truyền thống không xử lý hiệu quả vấn đề này, dẫn đến việc mô hình có xu hướng dự đoán nhầm về lớp đa số và bỏ qua các mẫu khó phân loại.
+
+Focal Loss được đề xuất bởi Lin~và~cộng~sự~\cite{lin2017focal} nhằm giải quyết vấn đề mất cân bằng dữ liệu bằng cách tập trung vào các mẫu khó phân loại.
+Hàm mất mát này điều chỉnh trọng số của các mẫu dựa trên độ khó của chúng, giảm ảnh hưởng của các mẫu dễ phân loại và tăng cường học từ các mẫu khó.
+Công thức của Focal Loss được định nghĩa như sau:
+
+\begin{equation}
+FL(p_t) = -\alpha_t {(1 - p_t)}^{\gamma} \log(p_t)
+\end{equation}
+
+Trong đó, $p_t$ là xác suất dự đoán đúng của lớp thực tế, được tính bằng:
+\begin{equation}
+p_t = \begin{cases}
+p & \text{nếu } y = 1 \\
+1 - p & \text{nếu } y = 0
+\end{cases}
+\end{equation}
+
+Tham số $\alpha_t$ là hệ số cân bằng trọng số cho từng lớp, giúp điều chỉnh tầm quan trọng của các lớp thiểu số.
+Tham số $\gamma$ (focusing parameter) điều khiển mức độ tập trung vào các mẫu khó, với giá trị càng lớn thì mô hình càng chú ý nhiều hơn đến các mẫu khó phân loại.
+Khi $\gamma = 0$, Focal Loss trở về Cross-Entropy truyền thống.
+
+Trong nghiên cứu này, Focal Loss được áp dụng với $\gamma = 2$ và hệ số $\alpha$ được điều chỉnh theo từng lớp để phù hợp với tỷ lệ phân bố của bộ dữ liệu.
+Chiến lược này giúp mô hình cải thiện đáng kể khả năng phân loại các mẫu thuộc lớp thiểu số, đặc biệt là lớp tiêu cực, từ đó nâng cao F1-score tổng thể của hệ thống.
 
 
-Phân tích cảm xúc (Sentiment Analysis) tìm cách suy luận thái độ của người viết thông qua văn bản. Trong ngữ cảnh thương mại điện tử, tác vụ thường được rút gọn thành phân loại cảm xúc của bình luận vào các nhãn rời rạc. Đồ án VeritaShop tập trung vào tập bình luận tiếng Việt có độ dài ngắn, nhiều ký tự biểu cảm, tiếng lóng và viết tắt, đồng thời gán mỗi mẫu vào ba nhãn \textit{tích cực}, \textit{trung tính} hoặc \textit{tiêu cực}. Bài toán đặt ra ba thách thức chính: (i) dữ liệu mất cân bằng, tỷ lệ bình luận tích cực vượt trội khiến mô hình dễ thiên lệch, (ii) ngôn ngữ phi chuẩn làm suy giảm khả năng hiểu ngữ nghĩa, và (iii) yêu cầu suy luận thời gian thực để tích hợp vào quy trình phục vụ khách hàng. Do đó hệ thống cần quy trình tiền xử lý chuẩn hóa, biểu diễn ngôn ngữ mạnh và chiến lược tối ưu hóa phù hợp để duy trì độ chính xác ổn định.
+% Nghiên cứu này triển khai và đánh giá hai mô hình ngôn ngữ tiền huấn luyện được thiết kế chuyên biệt cho tiếng Việt: PhoBERT và VisoBERT. Cả hai mô hình đều dựa trên kiến trúc Transformer encoder với cơ chế self-attention, cho phép học biểu diễn ngữ cảnh hai chiều hiệu quả từ văn bản đầu vào.
 
-\subsection{Các nghiên cứu liên quan}
-Các hướng tiếp cận truyền thống sử dụng đặc trưng thống kê như bag-of-words, TF-IDF kết hợp với SVM hoặc Naive Bayes giúp triển khai nhanh nhưng thiếu khả năng nắm bắt ngữ nghĩa và phụ thuộc mạnh vào tiền xử lý thủ công. Sự phát triển của học sâu đã mở ra các mô hình biểu diễn ngữ nghĩa hiệu quả hơn:
-\begin{itemize}
-    \item Kim \cite{kim-2014-convolutional} chứng minh CNN với bộ lọc trượt có khả năng khai thác cụm từ quan trọng khi phân loại văn bản ngắn.
-    \item LSTM \cite{10.1162/neco.1997.9.8.1735} giải quyết vấn đề phụ thuộc dài hạn trong câu, phù hợp với dữ liệu hội thoại và đánh giá.
-    \item Kiến trúc Transformer cùng cơ chế Attention \cite{vaswani2017attention} cho phép mô hình hóa quan hệ toàn cục giữa các token, là tiền đề cho các mô hình ngôn ngữ pre-training.
-    \item Các mô hình pre-training dành cho tiếng Việt như PhoBERT \cite{phobert}, viBERT hay viBART chứng minh hiệu quả vượt trội so với mBERT đa ngôn ngữ trong các tác vụ phân loại và phân tích cảm xúc tiếng Việt.
-\end{itemize}
-Những công trình trên cho thấy xu hướng chuyển dịch từ việc tự thiết kế đặc trưng sang tận dụng biểu diễn ngữ nghĩa học được từ dữ liệu lớn. Dựa trên các kết quả đó, dự án lựa chọn PhoBERT làm nền tảng và tinh chỉnh thêm để thích ứng với miền dữ liệu thương mại điện tử.
+% \textbf{PhoBERT} \cite{phobert} được phát triển bởi VinAI Research, xây dựng trên kiến trúc RoBERTa với 12 lớp encoder, 12 đầu chú ý (attention heads) và chiều ẩn 768, tổng cộng khoảng 135 triệu tham số. Mô hình được tiền huấn luyện trên khoảng 20GB văn bản tiếng Việt từ Wikipedia và các nguồn tin tức, sử dụng tokenizer theo chuẩn Byte-Pair Encoding (BPE). PhoBERT đã chứng minh hiệu suất vượt trội so với các mô hình đa ngôn ngữ như mBERT trong nhiều tác vụ xử lý ngôn ngữ tự nhiên tiếng Việt.
+
+% \textbf{VisoBERT} được phát triển bởi 5CD-AI, cũng dựa trên kiến trúc BERT nhưng được tiền huấn luyện trên corpus lớn hơn đáng kể với 14GB văn bản tiếng Việt đa dạng. Nhờ lượng dữ liệu huấn luyện phong phú hơn, VisoBERT có khả năng nắm bắt các đặc trưng ngôn ngữ và ngữ cảnh tiếng Việt sâu sắc hơn, đặc biệt trong các miền dữ liệu chuyên biệt như thương mại điện tử.
+
+% Cả hai mô hình sử dụng cơ chế masked language modeling (MLM) trong quá trình tiền huấn luyện, trong đó một tỷ lệ token ngẫu nhiên được che đi và mô hình học cách dự đoán các token bị che dựa trên ngữ cảnh xung quanh. Quá trình này giúp mô hình học được biểu diễn ngữ nghĩa phong phú, phục vụ hiệu quả cho các tác vụ downstream như phân tích cảm xúc.
+
+% \subsubsection{Quy trình tinh chỉnh}
+
+% Quá trình tinh chỉnh (fine-tuning) được thực hiện theo hai phương pháp học: Multi-Task Learning (MTL) và Single-Task Learning (STL).
+
+% \textbf{Multi-Task Learning (MTL):} Trong phương pháp này, cả hai tác vụ Aspect Detection (AD) và Sentiment Classification (SC) được huấn luyện đồng thời với backbone chia sẻ. Vector biểu diễn [CLS] từ lớp cuối cùng của mô hình được sử dụng làm đặc trưng đầu vào cho hai nhánh phân loại riêng biệt. Hàm mất mát tổng được tính bằng trung bình có trọng số của hàm mất mát hai tác vụ:
+% \begin{equation}
+% \mathcal{L}_{MTL} = \lambda_{AD} \cdot \mathcal{L}_{AD} + \lambda_{SC} \cdot \mathcal{L}_{SC}
+% \end{equation}
+% Tuy nhiên, phương pháp MTL có thể gặp vấn đề task interference khi hai tác vụ có gradient xung đột, ảnh hưởng đến hiệu suất tổng thể.
+
+% \textbf{Single-Task Learning (STL):} Phương pháp này huấn luyện hai mô hình hoàn toàn riêng biệt và độc lập cho từng tác vụ. Mô hình thứ nhất được tinh chỉnh chuyên biệt cho tác vụ AD để xác định các khía cạnh xuất hiện trong bình luận. Mô hình thứ hai được tinh chỉnh riêng cho tác vụ SC để phân loại cảm xúc. Hai mô hình không chia sẻ tham số và được tối ưu hóa độc lập, tránh hoàn toàn vấn đề task interference giữa các tác vụ như trong MTL.
+
+% Kết quả thực nghiệm cho thấy STL đạt hiệu suất cao hơn MTL đáng kể: PhoBERT-STL cải thiện AD F1-score thêm 22.56\% so với PhoBERT-MTL; VisoBERT-STL cải thiện AD thêm 6.71\% và SC thêm 2.74\% so với VisoBERT-MTL.
+
+% \subsubsection{Xử lý dữ liệu và hàm mất mát}
+
+% Bài toán Aspect Detection được định nghĩa là phân loại đa nhãn nhị phân (multi-label binary classification) với 11 khía cạnh: Battery, Camera, Performance, Display, Design, Packaging, Price, Shop\_Service, Shipping, General và Others. Mỗi bình luận có thể chứa nhiều khía cạnh đồng thời.
+
+% Bài toán Sentiment Classification được định nghĩa là phân loại đa lớp cho mỗi khía cạnh với 3 nhãn: Positive, Negative và Neutral, áp dụng cho 10 khía cạnh (trừ Others).
+
+% Để xử lý vấn đề mất cân bằng dữ liệu, nghiên cứu áp dụng Focal Loss cho cả hai tác vụ:
+% \begin{itemize}
+%     \item \textbf{Binary Focal Loss} cho AD: Được tính độc lập cho từng khía cạnh, giúp mô hình tập trung vào các khía cạnh ít xuất hiện.
+%     \item \textbf{Multi-class Focal Loss} cho SC: Được áp dụng với $\gamma = 2$ và hệ số $\alpha$ được điều chỉnh theo tỷ lệ phân bố của từng lớp cảm xúc trong bộ dữ liệu.
+% \end{itemize}
+
+% Quá trình tiền xử lý dữ liệu bao gồm: chuẩn hóa Unicode, chuẩn hóa viết tắt và tiếng lóng, loại bỏ ký tự nhiễu, giữ lại các emoji quan trọng biểu thị cảm xúc, và tokenization bằng BPE với chiều dài tối đa 256 token.
+
+% \subsubsection{Tích hợp vào hệ thống}
+
+% Mô hình VisoBERT-STL với hiệu suất cao nhất (AD F1: 89.39\%, SC F1: 96.37\%) được lựa chọn để tích hợp vào hệ thống VeritaShop. Mô hình được triển khai như một module AI độc lập trong kiến trúc monolithic, xử lý phân tích cảm xúc theo thời gian thực từ các bình luận sản phẩm.
+
+% Quy trình tích hợp bao gồm:
+% \begin{enumerate}
+%     \item \textbf{Tiền xử lý:} Bình luận đầu vào được chuẩn hóa và tokenize theo định dạng yêu cầu của VisoBERT.
+%     \item \textbf{Suy luận AD:} Mô hình xác định các khía cạnh xuất hiện trong bình luận.
+%     \item \textbf{Suy luận SC:} Với mỗi khía cạnh được phát hiện, mô hình phân loại cảm xúc tương ứng.
+%     \item \textbf{Tổng hợp kết quả:} Kết quả phân tích được lưu trữ vào cơ sở dữ liệu PostgreSQL thông qua Prisma ORM và hiển thị trên giao diện người dùng.
+% \end{enumerate}
+
+% Backend được xây dựng bằng Node.js, container hóa bằng Docker và theo dõi hiệu suất bằng Prometheus/Grafana. Kiến trúc này cho phép mở rộng linh hoạt khi lượng bình luận tăng cao, đồng thời đảm bảo thời gian phản hồi ổn định cho trải nghiệm người dùng.
+% \begin{comment}
+% Phần này trình bày nền tảng khoa học cho bài toán phân tích cảm xúc đối với bình luận sản phẩm tiếng Việt, gồm đặc tả nhiệm vụ, tổng quan các phương pháp nghiên cứu và cơ chế hoạt động của mô hình PhoBERT mà dự án lựa chọn.
 
 
-PhoBERT được xây dựng dựa trên BERT nước đôi với 12 lớp encoder, 12 đầu chú ý và chiều ẩn 768, được tiền huấn luyện trên hơn 20GB văn bản tiếng Việt chuẩn hóa theo Byte-Pair Encoding \cite{phobert}. Khối encoder học biểu diễn ngữ cảnh hai chiều, nhờ đó vector [CLS] cuối cùng mang thông tin toàn câu phục vụ phân loại.
+% Phân tích cảm xúc (Sentiment Analysis) tìm cách suy luận thái độ của người viết thông qua văn bản. Trong ngữ cảnh thương mại điện tử, tác vụ thường được rút gọn thành phân loại cảm xúc của bình luận vào các nhãn rời rạc. Đồ án VeritaShop tập trung vào tập bình luận tiếng Việt có độ dài ngắn, nhiều ký tự biểu cảm, tiếng lóng và viết tắt, đồng thời gán mỗi mẫu vào ba nhãn \textit{tích cực}, \textit{trung tính} hoặc \textit{tiêu cực}. Bài toán đặt ra ba thách thức chính: (i) dữ liệu mất cân bằng, tỷ lệ bình luận tích cực vượt trội khiến mô hình dễ thiên lệch, (ii) ngôn ngữ phi chuẩn làm suy giảm khả năng hiểu ngữ nghĩa, và (iii) yêu cầu suy luận thời gian thực để tích hợp vào quy trình phục vụ khách hàng. Do đó hệ thống cần quy trình tiền xử lý chuẩn hóa, biểu diễn ngôn ngữ mạnh và chiến lược tối ưu hóa phù hợp để duy trì độ chính xác ổn định.
+
+% \subsection{Các nghiên cứu liên quan}
+% Các hướng tiếp cận truyền thống sử dụng đặc trưng thống kê như bag-of-words, TF-IDF kết hợp với SVM hoặc Naive Bayes giúp triển khai nhanh nhưng thiếu khả năng nắm bắt ngữ nghĩa và phụ thuộc mạnh vào tiền xử lý thủ công. Sự phát triển của học sâu đã mở ra các mô hình biểu diễn ngữ nghĩa hiệu quả hơn:
+% \begin{itemize}
+%     \item Kim \cite{kim-2014-convolutional} chứng minh CNN với bộ lọc trượt có khả năng khai thác cụm từ quan trọng khi phân loại văn bản ngắn.
+%     \item LSTM \cite{10.1162/neco.1997.9.8.1735} giải quyết vấn đề phụ thuộc dài hạn trong câu, phù hợp với dữ liệu hội thoại và đánh giá.
+%     \item Kiến trúc Transformer cùng cơ chế Attention \cite{vaswani2017attention} cho phép mô hình hóa quan hệ toàn cục giữa các token, là tiền đề cho các mô hình ngôn ngữ pre-training.
+%     \item Các mô hình pre-training dành cho tiếng Việt như PhoBERT \cite{phobert}, viBERT hay viBART chứng minh hiệu quả vượt trội so với mBERT đa ngôn ngữ trong các tác vụ phân loại và phân tích cảm xúc tiếng Việt.
+% \end{itemize}
+% Những công trình trên cho thấy xu hướng chuyển dịch từ việc tự thiết kế đặc trưng sang tận dụng biểu diễn ngữ nghĩa học được từ dữ liệu lớn. Dựa trên các kết quả đó, dự án lựa chọn PhoBERT làm nền tảng và tinh chỉnh thêm để thích ứng với miền dữ liệu thương mại điện tử.
 
 
-Trong giai đoạn fine-tuning cho VeritaShop, token [CLS] được đưa qua một lớp dense ba nhãn, áp dụng Dropout 0.1 để giảm quá khớp và tối ưu bằng AdamW với lịch điều chỉnh learning rate dạng cosine. Chiến lược này cho phép mô hình hội tụ ổn định trên bộ dữ liệu không lớn.
+% PhoBERT được xây dựng dựa trên BERT nước đôi với 12 lớp encoder, 12 đầu chú ý và chiều ẩn 768, được tiền huấn luyện trên hơn 20GB văn bản tiếng Việt chuẩn hóa theo Byte-Pair Encoding \cite{phobert}. Khối encoder học biểu diễn ngữ cảnh hai chiều, nhờ đó vector [CLS] cuối cùng mang thông tin toàn câu phục vụ phân loại.
 
 
-Bộ dữ liệu bình luận bị lệch nhãn về phía tích cực, vì vậy nhóm áp dụng chiến lược tăng cường và cân bằng gồm: chuẩn hóa Unicode, chuẩn hóa viết tắt, loại bỏ ký tự nhiễu, giữ lại emoji quan trọng và sử dụng tokenizer BPE của PhoBERT với chiều dài tối đa 256 token. Focal loss với $\gamma = 2$ và hệ số $\alpha$ theo từng lớp được lựa chọn thay cho cross-entropy chuẩn để tập trung hơn vào các mẫu khó, cải thiện F1-score lớp tiêu cực.
+% Trong giai đoạn fine-tuning cho VeritaShop, token [CLS] được đưa qua một lớp dense ba nhãn, áp dụng Dropout 0.1 để giảm quá khớp và tối ưu bằng AdamW với lịch điều chỉnh learning rate dạng cosine. Chiến lược này cho phép mô hình hội tụ ổn định trên bộ dữ liệu không lớn.
 
-\subsubsection{Tích hợp vào hệ thống}
-PhoBERT được tích hợp trực tiếp vào backend monolithic như một module AI, xử lý phân tích cảm xúc từ bình luận sản phẩm. Backend được xây dựng bằng Node.js kết hợp Prisma/PostgreSQL chịu trách nhiệm lưu trữ dữ liệu và xử lý các chức năng quản lý sản phẩm, đánh giá và thông báo. Toàn bộ hệ thống được container hóa bằng Docker, theo dõi bằng Prometheus/Grafana và có thể mở rộng khi lưu lượng bình luận tăng.
 
-Nhờ đặc trưng ngôn ngữ giàu ngữ cảnh và quy trình tinh chỉnh phù hợp, PhoBERT đáp ứng tốt yêu cầu phân tích cảm xúc thời gian thực của hệ thống VeritaShop.
-\end{comment}
+% Bộ dữ liệu bình luận bị lệch nhãn về phía tích cực, vì vậy nhóm áp dụng chiến lược tăng cường và cân bằng gồm: chuẩn hóa Unicode, chuẩn hóa viết tắt, loại bỏ ký tự nhiễu, giữ lại emoji quan trọng và sử dụng tokenizer BPE của PhoBERT với chiều dài tối đa 256 token. Focal loss với $\gamma = 2$ và hệ số $\alpha$ theo từng lớp được lựa chọn thay cho cross-entropy chuẩn để tập trung hơn vào các mẫu khó, cải thiện F1-score lớp tiêu cực.
+
+% \subsubsection{Tích hợp vào hệ thống}
+% PhoBERT được tích hợp trực tiếp vào backend monolithic như một module AI, xử lý phân tích cảm xúc từ bình luận sản phẩm. Backend được xây dựng bằng Node.js kết hợp Prisma/PostgreSQL chịu trách nhiệm lưu trữ dữ liệu và xử lý các chức năng quản lý sản phẩm, đánh giá và thông báo. Toàn bộ hệ thống được container hóa bằng Docker, theo dõi bằng Prometheus/Grafana và có thể mở rộng khi lưu lượng bình luận tăng.
+
+% Nhờ đặc trưng ngôn ngữ giàu ngữ cảnh và quy trình tinh chỉnh phù hợp, PhoBERT đáp ứng tốt yêu cầu phân tích cảm xúc thời gian thực của hệ thống VeritaShop.
+% \end{comment}

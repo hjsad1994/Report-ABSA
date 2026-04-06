@@ -1,7 +1,443 @@
 
 \newpage
 \section{\textbf{Mô hình,thực nghiệm và đánh giá}}
+\subsection{Mô hình}
 
+Nghiên cứu này triển khai và so sánh hai phương pháp học cho bài toán Aspect-Based Sentiment Analysis (ABSA): Multi-Task Learning (MTL) và Single-Task Learning (STL).
+
+\subsubsection{Multi-Task Learning (MTL)}
+Trong phương pháp MTL, cả hai tác vụ Aspect Detection (AD) và Sentiment Classification (SC) được huấn luyện đồng thời với backbone chia sẻ. Vector biểu diễn [CLS] từ lớp cuối cùng của mô hình được sử dụng làm đặc trưng đầu vào cho hai nhánh phân loại riêng biệt.
+
+Hàm mất mát tổng được tính bằng trung bình có trọng số:
+\begin{equation}
+\mathcal{L}_{MTL} = \lambda_{AD} \cdot \mathcal{L}_{AD} + \lambda_{SC} \cdot \mathcal{L}_{SC}
+\end{equation}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.65\textwidth]{image/MoHinh/MTL.drawio.png}
+\caption{Kiến trúc Multi-Task Learning (MTL)}
+\label{fig:model-mtl}
+\end{figure}
+
+\subsubsection{Single-Task Learning (STL)}
+Phương pháp STL huấn luyện hai mô hình hoàn toàn riêng biệt và độc lập cho từng tác vụ, tránh hoàn toàn vấn đề task interference.
+
+\textbf{Mô hình Aspect Detection (AD):} Xác định các khía cạnh xuất hiện trong bình luận. Đây là bài toán phân loại đa nhãn nhị phân với 11 khía cạnh. Sử dụng Binary Focal Loss để xử lý mất cân bằng dữ liệu.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.4\textwidth]{image/MoHinh/STL-AD.drawio.png}
+\caption{Kiến trúc Single-Task Learning cho Aspect Detection (STL-AD)}
+\label{fig:model-stl-ad}
+\end{figure}
+
+\textbf{Mô hình Sentiment Classification (SC):} Phân loại cảm xúc cho từng khía cạnh với 3 nhãn: Positive, Negative, Neutral. Sử dụng Multi-class Focal Loss với $\gamma = 2$.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.5\textwidth]{image/MoHinh/STL-SC.drawio.png}
+\caption{Kiến trúc Single-Task Learning cho Sentiment Classification (STL-SC)}
+\label{fig:model-stl-sc}
+\end{figure}
+
+\subsection{Tập dữ liệu}
+
+Nghiên cứu sử dụng bộ dữ liệu gồm \textbf{14,912 mẫu} bình luận sản phẩm điện thoại di động tiếng Việt, được thu thập (crawl) từ các sàn thương mại điện tử như Shopee, Lazada, Tiki. Bộ dữ liệu bao gồm 11 khía cạnh đặc trưng cho lĩnh vực thương mại điện tử, trong đó có Packaging và Shipping - hai khía cạnh quan trọng thường bị thiếu trong các bộ dữ liệu hiện có.
+
+\subsubsection{Phân chia dữ liệu}
+Bộ dữ liệu được chia thành 3 tập với tỷ lệ 80:10:10:
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|c|}
+\hline
+\textbf{Tập dữ liệu} & \textbf{Số mẫu} & \textbf{Tỷ lệ} \\
+\hline
+Training & 11,930 & 80\% \\
+\hline
+Validation & 1,491 & 10\% \\
+\hline
+Test & 1,491 & 10\% \\
+\hline
+\textbf{Tổng} & \textbf{14,912} & \textbf{100\%} \\
+\hline
+\end{tabular}
+\caption{Phân chia tập dữ liệu}
+\label{tab:dataset-split}
+\end{table}
+
+\subsubsection{Các khía cạnh (Aspects)}
+Mỗi bình luận được gán nhãn cho 11 khía cạnh khác nhau:
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|l|l|}
+\hline
+\textbf{STT} & \textbf{Aspect} & \textbf{Mô tả} \\
+\hline
+1 & Battery & Pin, thời lượng sử dụng, sạc \\
+\hline
+2 & Camera & Chất lượng ảnh, video, camera trước/sau \\
+\hline
+3 & Performance & Hiệu năng, tốc độ xử lý, RAM \\
+\hline
+4 & Display & Màn hình, độ phân giải, màu sắc \\
+\hline
+5 & Design & Thiết kế, ngoại hình, chất liệu \\
+\hline
+6 & Packaging & Đóng gói, hộp, phụ kiện đi kèm \\
+\hline
+7 & Price & Giá cả, giá trị, khuyến mãi \\
+\hline
+8 & Shop\_Service & Dịch vụ cửa hàng, tư vấn, hỗ trợ \\
+\hline
+9 & Shipping & Giao hàng, vận chuyển, thời gian \\
+\hline
+10 & General & Nhận xét chung về sản phẩm \\
+\hline
+11 & Others & Các khía cạnh khác \\
+\hline
+\end{tabular}
+\caption{Danh sách 11 khía cạnh trong bộ dữ liệu}
+\label{tab:aspects-list}
+\end{table}
+
+\subsubsection{Nhãn cảm xúc (Sentiments)}
+Mỗi khía cạnh (trừ Others) được gán một trong 3 nhãn cảm xúc: \textbf{Positive} (tích cực), \textbf{Negative} (tiêu cực), hoặc \textbf{Neutral} (trung tính).
+
+\subsection{Đánh nhãn dữ liệu}
+
+Quá trình đánh nhãn dữ liệu được thực hiện bởi nhóm gồm \textbf{9 người} sử dụng công cụ \textbf{Label Studio}. Quy trình đánh nhãn được chia thành 2 giai đoạn:
+
+\subsubsection{Quy trình đánh nhãn}
+Với tổng số 14,912 mẫu, quy trình đánh nhãn được thực hiện như sau:
+\begin{itemize}
+    \item \textbf{Phase 1:} 8 người tham gia đánh nhãn 1,000 mẫu đầu tiên để xây dựng guideline và thống nhất tiêu chí đánh nhãn.
+    \item \textbf{Phase 2:} 9 người tham gia đánh nhãn 13,912 mẫu còn lại (14,912 - 1,000) sau khi đã có guideline hoàn chỉnh.
+\end{itemize}
+
+\subsubsection{Công thức tính kích thước mẫu}
+Để đánh giá độ đồng thuận, không cần tính Fleiss' Kappa trên toàn bộ 13,912 mẫu. Thay vào đó, nhóm sử dụng công thức Slovin để xác định kích thước mẫu tối thiểu:
+
+\begin{equation}
+n = \frac{N}{1 + N \cdot e^2}
+\end{equation}
+
+Trong đó:
+\begin{itemize}
+    \item $n$ là kích thước mẫu cần lấy
+    \item $N = 13,912$ là tổng số mẫu trong Phase 2
+    \item $e$ là sai số cho phép (margin of error)
+\end{itemize}
+
+Với độ tin cậy 95\% và sai số $e = 2.5\%$:
+\begin{equation}
+n = \frac{13,912}{1 + 13,912 \times (0.025)^2} = \frac{13,912}{1 + 8.695} = \frac{13,912}{9.695} \approx 1,435
+\end{equation}
+
+Nhóm chọn \textbf{1,546 mẫu} (lớn hơn giá trị tối thiểu 1,435) để đảm bảo độ tin cậy cao trong đánh giá độ đồng thuận.
+
+\subsubsection{Công thức Fleiss' Kappa}
+Fleiss' Kappa là thước đo độ đồng thuận giữa nhiều annotator, được tính theo công thức:
+
+\begin{equation}
+\kappa = \frac{\bar{P} - \bar{P_e}}{1 - \bar{P_e}}
+\end{equation}
+
+Trong đó:
+\begin{itemize}
+    \item $\bar{P}$ là tỷ lệ đồng thuận quan sát được (observed agreement)
+    \item $\bar{P_e}$ là tỷ lệ đồng thuận kỳ vọng do ngẫu nhiên (expected agreement)
+\end{itemize}
+
+Với $n$ annotator và $N$ mẫu, $k$ categories:
+\begin{equation}
+\bar{P} = \frac{1}{N} \sum_{i=1}^{N} \frac{1}{n(n-1)} \sum_{j=1}^{k} n_{ij}(n_{ij}-1)
+\end{equation}
+
+\begin{equation}
+\bar{P_e} = \sum_{j=1}^{k} p_j^2, \quad \text{với } p_j = \frac{1}{Nn} \sum_{i=1}^{N} n_{ij}
+\end{equation}
+
+\subsubsection{Kết quả đánh giá độ đồng thuận}
+
+\textbf{Phase 1 (N=1,000, n=8 annotators):}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|}
+\hline
+\textbf{Chỉ số} & \textbf{Giá trị} \\
+\hline
+Số mẫu đánh giá & 1,000 \\
+\hline
+Số annotator & 8 \\
+\hline
+Kappa trung bình & 0.7544 \\
+\hline
+Kappa trung vị & 0.8469 \\
+\hline
+Độ lệch chuẩn & 0.1279 \\
+\hline
+\end{tabular}
+\caption{Kết quả Fleiss' Kappa Phase 1 trên 1,000 mẫu}
+\label{tab:fleiss-kappa-phase1-summary}
+\end{table}
+
+\textbf{Phase 2 (N=1,546, n=9 annotators):}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|}
+\hline
+\textbf{Chỉ số} & \textbf{Giá trị} \\
+\hline
+Số mẫu đánh giá & 1,546 \\
+\hline
+Số annotator & 9 \\
+\hline
+Kappa trung bình & 0.8208 \\
+\hline
+Kappa trung vị & 0.8382 \\
+\hline
+Độ lệch chuẩn & 0.0814 \\
+\hline
+\end{tabular}
+\caption{Kết quả Fleiss' Kappa Phase 2 trên 1,546 mẫu}
+\label{tab:fleiss-kappa}
+\end{table}
+
+\subsubsection{Kết quả Fleiss' Kappa theo khía cạnh}
+
+\textbf{Phase 1 (N=1,000, n=8 annotators):}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|c|c|l|}
+\hline
+\textbf{Aspect} & \textbf{Kappa} & \textbf{$\bar{P}$} & \textbf{$\bar{P_e}$} & \textbf{Đánh giá} \\
+\hline
+Battery & 0.8747 & 0.9462 & 0.5704 & Rất tốt \\
+\hline
+Camera & 0.8861 & 0.9602 & 0.6502 & Rất tốt \\
+\hline
+Performance & 0.7220 & 0.8688 & 0.5282 & Tốt \\
+\hline
+Display & 0.8469 & 0.9628 & 0.7573 & Rất tốt \\
+\hline
+Design & 0.5794 & 0.8555 & 0.6565 & Trung bình \\
+\hline
+Packaging & 0.8528 & 0.9562 & 0.7022 & Rất tốt \\
+\hline
+Price & 0.6610 & 0.9285 & 0.7891 & Tốt \\
+\hline
+Shop\_Service & 0.8548 & 0.9552 & 0.6913 & Rất tốt \\
+\hline
+Shipping & 0.8646 & 0.9592 & 0.6985 & Rất tốt \\
+\hline
+General & 0.5277 & 0.8558 & 0.6947 & Trung bình \\
+\hline
+Others & 0.6287 & 0.9878 & 0.9672 & Tốt \\
+\hline
+\end{tabular}
+\caption{Fleiss' Kappa Phase 1 (N=1,000, n=8) - Kappa trung bình: 0.7544}
+\label{tab:fleiss-kappa-phase1}
+\end{table}
+
+\textbf{Phase 2 (N=1,546, n=9 annotators):}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|c|c|l|}
+\hline
+\textbf{Aspect} & \textbf{Kappa} & \textbf{$\bar{P}$} & \textbf{$\bar{P_e}$} & \textbf{Đánh giá} \\
+\hline
+Battery & 0.8834 & 0.9669 & 0.7161 & Rất tốt \\
+\hline
+Camera & 0.9166 & 0.9837 & 0.8048 & Rất tốt \\
+\hline
+Performance & 0.7842 & 0.9369 & 0.7078 & Tốt \\
+\hline
+Display & 0.7915 & 0.9665 & 0.8392 & Tốt \\
+\hline
+Design & 0.7105 & 0.9113 & 0.6935 & Tốt \\
+\hline
+Packaging & 0.8703 & 0.9663 & 0.7399 & Rất tốt \\
+\hline
+Price & 0.8770 & 0.9553 & 0.6362 & Rất tốt \\
+\hline
+Shop\_Service & 0.8301 & 0.9514 & 0.7138 & Rất tốt \\
+\hline
+Shipping & 0.8917 & 0.9583 & 0.6147 & Rất tốt \\
+\hline
+General & 0.6352 & 0.8621 & 0.6221 & Trung bình \\
+\hline
+Others & 0.8382 & 0.9947 & 0.9674 & Rất tốt \\
+\hline
+\end{tabular}
+\caption{Fleiss' Kappa theo từng khía cạnh (N=1,546, n=9)}
+\label{tab:fleiss-kappa-aspects}
+\end{table}
+
+Theo thang đánh giá Landis \& Koch, giá trị Kappa được diễn giải như sau: $<$ 0.20 (kém), 0.21-0.40 (yếu), 0.41-0.60 (trung bình), 0.61-0.80 (tốt), 0.81-1.00 (rất tốt). 
+
+Kết quả cho thấy độ đồng thuận được cải thiện đáng kể qua 2 giai đoạn:
+\begin{itemize}
+    \item \textbf{Phase 1:} Kappa trung bình đạt \textbf{0.7544} - mức "tốt" (substantial agreement), với 8 annotator trên 1,000 mẫu.
+    \item \textbf{Phase 2:} Kappa trung bình đạt \textbf{0.8208} - mức "rất tốt" (almost perfect agreement), với 9 annotator trên 1,546 mẫu.
+\end{itemize}
+
+Sự cải thiện từ Phase 1 sang Phase 2 (tăng 8.8\%) chứng tỏ guideline và quy trình đánh nhãn đã được hoàn thiện hiệu quả.
+
+\subsection{Tiền xử lý dữ liệu}
+Trước khi huấn luyện mô hình, dữ liệu thô được tiền xử lý qua các bước sau:
+
+\begin{enumerate}
+    \item \textbf{Chuẩn hóa chính tả:} Loại bỏ và sửa các lỗi chính tả phổ biến trong bình luận tiếng Việt (ví dụ: "đẹpp" → "đẹp", "tooott" → "tốt").
+    \item \textbf{Chuyển đổi từ tiếng Anh:} Chuyển các từ tiếng Anh thông dụng sang tiếng Việt tương đương (ví dụ: "good" → "tốt", "nice" → "đẹp", "bad" → "tệ", "shop" → "cửa hàng").
+    \item \textbf{Chuẩn hóa viết tắt:} Chuyển các từ viết tắt, teencode sang dạng chuẩn (ví dụ: "k" → "không", "đc" → "được", "nc" → "nói chuyện").
+    \item \textbf{Loại bỏ nhiễu:} Xóa các ký tự đặc biệt không cần thiết, URL, số điện thoại, nhưng giữ lại emoji quan trọng biểu thị cảm xúc.
+    \item \textbf{Làm sạch nhãn sai:} Rà soát và loại bỏ các mẫu có nhãn không nhất quán hoặc gán nhãn sai so với nội dung bình luận.
+\end{enumerate}
+
+\subsection{Kết quả và đánh giá}
+
+\subsubsection{Metrics}
+Để đánh giá hiệu năng mô hình, nghiên cứu sử dụng các chỉ số sau:
+\begin{itemize}
+    \item \textbf{Precision}: Tỷ lệ dự đoán đúng trên tổng số dự đoán positive.
+    \item \textbf{Recall}: Tỷ lệ dự đoán đúng trên tổng số positive thực tế.
+    \item \textbf{F1-Score}: Trung bình điều hòa của Precision và Recall.
+\end{itemize}
+
+\begin{equation}
+F1 = \frac{2 \times Precision \times Recall}{Precision + Recall}
+\end{equation}
+
+\subsubsection{Cài đặt thí nghiệm}
+\begin{itemize}
+    \item \textbf{Hardware}: GPU NVIDIA RTX 3070 (8GB VRAM)
+    \item \textbf{Framework}: PyTorch 2.0, Transformers 4.30
+    \item \textbf{Optimizer}: AdamW với learning rate $2 \times 10^{-5}$, weight decay = 0.01, epsilon = $1.0 \times 10^{-8}$
+    \item \textbf{Batch size}: 16 cho BERT models, 32 cho BiLSTM models
+    \item \textbf{Epochs}: 12 với early stopping, patience = 5
+    \item \textbf{Dropout}: 0.3
+    \item \textbf{Max gradient norm}: 1.0
+    \item \textbf{Focal Loss parameters}: $\gamma$ = 2.0, $\alpha$ = auto
+\end{itemize}
+
+\subsubsection{Baseline Models}
+Nghiên cứu so sánh 8 mô hình chia thành 3 nhóm:
+
+\textbf{1. BiLSTM-based Models (Traditional Deep Learning):}
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|c|c|}
+\hline
+\textbf{Mô hình} & \textbf{Kiến trúc} & \textbf{AD F1} & \textbf{SC F1} \\
+\hline
+BILSTM-MTL & BiLSTM + Conv1D + MTL & 84.09\% & 33.48\% \\
+\hline
+BILSTM-MTL-NoCon & BiLSTM + MTL (không Conv1D) & 82.85\% & 34.28\% \\
+\hline
+BILSTM-STL & BiLSTM + Conv1D + STL & 86.23\% & 36.87\% \\
+\hline
+BILSTM-STL-NoCon & BiLSTM + STL & 85.69\% & 39.83\% \\
+\hline
+\end{tabular}
+\caption{Kết quả các mô hình BiLSTM}
+\label{tab:bilstm-results}
+\end{table}
+
+\textbf{2. PhoBERT-based Models:}
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|c|c|}
+\hline
+\textbf{Mô hình} & \textbf{Kiến trúc} & \textbf{AD F1} & \textbf{SC F1} \\
+\hline
+PhoBERT-MTL & vinai/phobert-base + MTL & 66.28\% & 92.93\% \\
+\hline
+PhoBERT-STL & vinai/phobert-base + STL & 88.84\% & 92.06\% \\
+\hline
+\end{tabular}
+\caption{Kết quả các mô hình PhoBERT}
+\label{tab:phobert-results}
+\end{table}
+
+\textbf{3. VisoBERT-based Models (Best Performance):}
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|c|c|}
+\hline
+\textbf{Mô hình} & \textbf{Kiến trúc} & \textbf{AD F1} & \textbf{SC F1} \\
+\hline
+VisoBERT-MTL & 5CD-AI/visobert + MTL & 82.68\% & 93.63\% \\
+\hline
+\textbf{VisoBERT-STL} & 5CD-AI/visobert + STL & \textbf{89.39\%} & \textbf{96.37\%} \\
+\hline
+\end{tabular}
+\caption{Kết quả các mô hình VisoBERT}
+\label{tab:visobert-results}
+\end{table}
+
+\subsubsection{Kết Quả}
+
+Bảng dưới đây tổng hợp kết quả F1-Score của tất cả các mô hình đã thực nghiệm trên hai nhiệm vụ: Phát hiện khía cạnh (AD) và Phân loại cảm xúc (SC).
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|c|c|c|}
+\hline
+\textbf{Metric} & \multicolumn{2}{c|}{\textbf{STL}} & \multicolumn{2}{c|}{\textbf{MTL}} \\
+\hline
+\textbf{Model} & \textbf{F1\_ad} & \textbf{F1\_sc} & \textbf{F1\_ad} & \textbf{F1\_sc} \\
+\hline
+BILSTM & 85.69\% & 39.83\% & 82.85\% & 34.28\% \\
+\hline
+BILSTM + Conv1D & 86.23\% & 36.87\% & \textbf{84.09\%} & 33.48\% \\
+\hline
+PhoBERT & 88.84\% & 92.06\% & 66.28\% & 92.93\% \\
+\hline
+VisoBERT & \textbf{89.39\%} & \textbf{96.37\%} & 82.68\% & \textbf{93.63\%} \\
+\hline
+\end{tabular}
+\caption{Bảng so sánh F1-Score của các mô hình}
+\label{tab:comparison-all}
+\end{table}
+
+Từ kết quả trên, có thể thấy:
+\begin{itemize}
+    \item Các mô hình BiLSTM đạt kết quả tốt ở nhiệm vụ Phát hiện khía cạnh (84-86\%) nhưng kém ở Phân loại cảm xúc (33-40\%).
+    \item Các mô hình Transformer (PhoBERT, VisoBERT) đạt kết quả xuất sắc ở Phân loại cảm xúc (92-96\%).
+    \item \textbf{VisoBERT-STL} đạt kết quả cao nhất ở cả hai nhiệm vụ với AD F1 = 89.39\% và SC F1 = 96.37\%.
+\end{itemize}
+
+\subsubsection{Phân tích kết quả}
+
+\textbf{1. Học đơn nhiệm vụ tốt hơn học đa nhiệm vụ (STL > MTL):}
+\begin{itemize}
+    \item PhoBERT-STL: Phát hiện khía cạnh tăng +22.56\% so với PhoBERT-MTL
+    \item VisoBERT-STL: Phát hiện khía cạnh tăng +6.71\%, Phân loại cảm xúc tăng +2.74\% so với VisoBERT-MTL
+    \item Huấn luyện riêng biệt giúp mỗi nhiệm vụ được tối ưu độc lập, tránh xung đột giữa các nhiệm vụ
+\end{itemize}
+
+\textbf{2. Mô hình Transformer vượt trội hơn BiLSTM:}
+\begin{itemize}
+    \item Phân loại cảm xúc: 96.37\% (VisoBERT) so với 39.83\% (BiLSTM) = cải thiện +56.54\%
+    \item Các mô hình Transformer được huấn luyện trước có khả năng biểu diễn ngữ cảnh mạnh hơn
+\end{itemize}
+
+\textbf{3. VisoBERT cho kết quả tốt hơn PhoBERT:}
+\begin{itemize}
+    \item VisoBERT-STL: Phát hiện khía cạnh 89.39\%, Phân loại cảm xúc 96.37\%
+    \item PhoBERT-STL: Phát hiện khía cạnh 88.84\%, Phân loại cảm xúc 92.06\%
+    \item VisoBERT được huấn luyện trên tập dữ liệu 14GB tiếng Việt và có khả năng hiểu được emoji/icon nên cho kết quả tốt hơn
+\end{itemize}
+
+% \subsubsection{Kết luận}
+% Mô hình \textbf{VisoBERT-STL} đạt hiệu năng cao nhất với F1 Phát hiện khía cạnh = 89.39\% và F1 Phân loại cảm xúc = 96.37\%, được chọn làm mô hình chính thức triển khai cho hệ thống.
 % \textbf{1. Hệ thống kiểm duyệt nội dung đa phương thức}
 
 

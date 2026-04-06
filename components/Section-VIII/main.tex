@@ -1,7 +1,42 @@
 
-% \newpage
-% \section{\textbf{CHƯƠNG 6: KẾT LUẬN VÀ KIẾN NGHỊ}}
+\newpage
+\section{\textbf{KẾT LUẬN}}
 
+% \subsection{Tổng kết}
+% Đồ án đã nghiên cứu và xây dựng thành công hệ thống phân tích cảm xúc dựa trên khía cạnh (ABSA) cho tiếng Việt, với hai nhiệm vụ chính: Phát hiện khía cạnh (Aspect Detection) và Phân loại cảm xúc (Sentiment Classification).
+
+\subsection{Kết quả đạt được}
+\begin{enumerate}
+    \item \textbf{Xây dựng bộ dữ liệu}: Thu thập và đánh nhãn 14,912 bình luận từ các sàn thương mại điện tử Shopee, Lazada, Tiki với 11 khía cạnh và 3 mức cảm xúc. Độ đồng thuận Fleiss' Kappa đạt 0.8208 (mức rất tốt).
+    
+    \item \textbf{Thực nghiệm đa mô hình}: So sánh 6 mô hình thuộc 3 nhóm kiến trúc (BiLSTM, PhoBERT, VisoBERT) với 2 chiến lược huấn luyện (MTL và STL).
+    
+    \item \textbf{Kết quả tốt nhất}: Mô hình VisoBERT-STL đạt F1 = 89.39\% cho Phát hiện khía cạnh và F1 = 96.37\% cho Phân loại cảm xúc.
+    
+    \item \textbf{Tích hợp hệ thống}: Triển khai mô hình vào hệ thống thương mại điện tử thực tế với API phân tích cảm xúc theo thời gian thực.
+\end{enumerate}
+
+% \subsection{Phát hiện quan trọng}
+% \begin{itemize}
+%     \item Học đơn nhiệm vụ (STL) cho kết quả tốt hơn học đa nhiệm vụ (MTL), với PhoBERT-STL tăng +22.56\% so với PhoBERT-MTL ở nhiệm vụ Phát hiện khía cạnh.
+%     \item Mô hình Transformer vượt trội hơn BiLSTM, đặc biệt ở Phân loại cảm xúc (96.37\% so với 39.83\%).
+%     \item VisoBERT với khả năng hiểu emoji/icon cho kết quả tốt hơn PhoBERT nhờ được huấn luyện trên corpus 14GB tiếng Việt.
+% \end{itemize}
+
+\subsection{Hạn chế cần khắc phục}
+\begin{itemize}
+    \item Bộ dữ liệu tập trung vào lĩnh vực điện thoại di động, cần mở rộng sang các lĩnh vực khác.
+    \item Chưa xử lý được các bình luận có nhiều khía cạnh với cảm xúc trái ngược phức tạp.
+    \item Thời gian suy luận của mô hình Transformer còn chậm so với yêu cầu thời gian thực.
+\end{itemize}
+
+\subsection{Hướng phát triển hệ thống}
+\begin{itemize}
+    \item Mở rộng bộ dữ liệu sang các lĩnh vực khác như thời trang, mỹ phẩm, thực phẩm.
+    \item Nghiên cứu kỹ thuật nén mô hình (Knowledge Distillation) để giảm thời gian suy luận.
+    \item Tích hợp thêm phân tích hình ảnh sản phẩm để có đánh giá toàn diện hơn.
+    \item Phát triển dashboard trực quan hóa xu hướng cảm xúc theo thời gian.
+\end{itemize}
 
 % \subsection{Kết Luận}
 
